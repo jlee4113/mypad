@@ -350,10 +350,10 @@ module.exports = {
 
 'use strict';
 /*eslint-disable no-undef*/
-var visitors = _dereq_('./vendor/fbtransform/visitors');
+var visitors = _dereq_('./lib/fbtransform/visitors');
 var transform = _dereq_('jstransform').transform;
 var typesSyntax = _dereq_('jstransform/visitors/type-syntax');
-var inlineSourceMap = _dereq_('./vendor/inline-source-map');
+var inlineSourceMap = _dereq_('./lib/inline-source-map');
 
 module.exports = {
   transform: function(input, options) {

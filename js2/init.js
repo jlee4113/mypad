@@ -5,7 +5,6 @@
 */
 
 (function($) {
-
 	skel.init({
 		reset: 'full',
 		breakpoints: {
@@ -44,17 +43,13 @@
 	});
 
 	$(function() {
-
 		var	$window = $(window),
 			$body = $('body');
-
 		// Disable animations/transitions until page has loaded.
 			$body.addClass('loading');
-			
 			$window.on('load', function() {
 				$body.removeClass('loading');
 			});
-						
 		// Forms (IE<10).
 			var $form = $('form');
 			if ($form.length > 0) {

@@ -717,7 +717,7 @@ var isUnitlessNumber = {
 };
 
 /**
- * @param {string} prefix vendor-specific prefix, eg: Webkit
+ * @param {string} prefix lib-specific prefix, eg: Webkit
  * @param {string} key style name, eg: transitionDuration
  * @return {string} style name prefixed with `prefix`, properly camelCased, eg:
  * WebkitTransitionDuration
@@ -728,7 +728,7 @@ function prefixKey(prefix, key) {
 
 /**
  * Support style names that may come passed in prefixed by adding permutations
- * of vendor prefixes.
+ * of lib prefixes.
  */
 var prefixes = ['Webkit', 'ms', 'Moz', 'O'];
 
@@ -866,7 +866,7 @@ if ("production" !== "development") {
     warnedStyleNames[name] = true;
     ("production" !== "development" ? warning(
       false,
-      'Unsupported vendor-prefixed style property %s. Did you mean %s?',
+      'Unsupported lib-prefixed style property %s. Did you mean %s?',
       name,
       name.charAt(0).toUpperCase() + name.slice(1)
     ) : null);
@@ -7714,7 +7714,7 @@ ReactDOMComponent.Mixin = {
         this._tag === 'pre' ||
         this._tag === 'textarea') {
       // Add an initial newline because browsers ignore the first newline in
-      // a <listing>, <pre>, or <textarea> as an "authoring convenience" -- see
+      // a <homes>, <pre>, or <textarea> as an "authoring convenience" -- see
       // https://html.spec.whatwg.org/multipage/syntax.html#parsing-main-inbody.
       prefix = '\n';
     }
@@ -18239,7 +18239,7 @@ var _uppercasePattern = /([A-Z])/g;
  *   < "background-color"
  *
  * For CSS style names, use `hyphenateStyleName` instead which works properly
- * with all vendor prefixes, including `ms`.
+ * with all lib prefixes, including `ms`.
  *
  * @param {string} string
  * @return {string}

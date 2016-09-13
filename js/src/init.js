@@ -1,24 +1,80 @@
-function init () {
-    var me = this;
-    $('.nav').click(function(e){
-        var target = e.target;
-        for (var i=0; i< $('.page').length; i++) {
-            var sec = $('.page')[i];
-            if (sec.getAttribute('id') !== target.getAttribute('page')) {
-                $(sec).hide();
-            }
-        }
-    });
+var mypad = {};
+mypad.configs = {
+    register: $('#register'),
+    container: $('#container')
+};
 
-    $('#login-form-link').click(function(e) {
-        loginNav(e);
+function init () {
+    document.ready(function(){
+        $('.nav').click(function(e){
+            var target = e.target;
+            for (var i=0; i< $('.page').length; i++) {
+                var sec = $('.page')[i];
+                if (sec.getAttribute('id') !== target.getAttribute('page')) {
+                    $(sec).hide();
+                }
+            }
+        });
+        $('#login-form-link').click(function(e) {
+            loginNav(e);
+        });
+        $('#register-form-link').click(function(e) {
+            registerNav(e);
+        });
+        $('.submit').click(function(e){
+            submit(e);
+        });
+        initDialog();
+        hideThings();
     });
-    $('#register-form-link').click(function(e) {
-        registerNav(e);
+}
+
+function hideThings() {
+    var things = $('.hide');
+    for (var i=0; i<things.length; i++) {
+        $(things[i]).hide();
+    }
+}
+
+function initDialog() {
+    var array = $('.dialog');
+    for (var i=0; i<array.length; i++) {
+        var win = array[i];
+        $(win).dialog({
+            autoOpen: false,
+            modal: true,
+            closeOnEscape: true,
+            buttons: [
+                {
+                    text: "Ok",
+                    click: function() {
+                        $( this ).dialog( "close" );
+                    }
+                },
+                {
+                    text: "Cancel",
+                    click: function() {
+                        $( this ).dialog( "close" );
+                    }
+                }
+            ]
+        });
+    }
+    $( ".dialog-link" ).click(function(e) {
+        e.preventDefault();
+        var win = event.target.getAttribute('win'),
+            container = mypad.configs.container;
+        win = mypad.configs[win];
+        win.show();
+        container.html(win);
     });
-    $('.submit').click(function(e){
-        submit(e);
-    });
+}
+
+function getHeight(el){
+    return el.find('#content').height;
+}
+function getWidth(el){
+    return el.find('#content').width();
 }
 
 function loginNav (e) {
