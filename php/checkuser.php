@@ -1,4 +1,5 @@
 <?php
+// this is a test
 include 'connect.php';
 $email = $_GET["email"];
 
