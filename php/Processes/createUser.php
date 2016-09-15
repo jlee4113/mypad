@@ -53,8 +53,11 @@ if (!empty($response)) {
   }
 //If ID is not set, then exit with message
   if (!isset($id)) {
-    echo "E-Mail $email was not saved";
-    exit(8);    //General Failure
+//    echo "E-Mail $email was not saved";
+    $return = add_message("returnCode", "8", $return);
+    $return = add_message("message", "Email $email was not saved.  Contact System Administrator", $return);
+    echo json_encode($return);
+    exit;    
   }  
   // Now add the password to the password table with unique ID assigned
   //Hash the password provided
@@ -85,11 +88,14 @@ else {
   $update  = add_field("locked", "0", $update);
   $where   = add_where("idPerson", $id, $where);
   modify_record('password', $update, $where);
+  $return = add_message("returnCode", "3", $return);
+  $return = add_message("message", "User created and password set.", $return); 
 }
 }
 else {    //only update password
   echo 'User already exists'.json_encode($response);
-  exit(2);  //Cannot be created.  Password updated
+  $return = add_message("returnCode", "2", $return);
+  $return = add_message("message", "Email already exists. Cannot create.  Password updated.", $return); 
 }
-exit(3);
+echo json_encode($return);
 ?>

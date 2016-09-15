@@ -102,7 +102,11 @@ function generateRandomString($length = 10) {
     }
     return $randomString;
 }
-
+function add_message($field, $value, $message = array()) {
+  $row = array($field => $value);
+  array_push($message, $row);
+  return $message;
+}
 function add_where($field, $value, $where = array()) {
   $row = array('field' => $field, 'value' => $value);
   array_push($where, $row);
