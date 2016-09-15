@@ -4,32 +4,46 @@ header('Access-Control-Allow-Origin: *');
 //these are the input parameters needed
 //$email = 'david.smith@me.com';
 //$password = 'mypassword';
-
+//echo "Start Process \n";
 $email     = get_variable('primEmail', $_POST);
 $namefirst = get_variable('namefirst', $_POST);
 $namelast  = get_variable('namelast', $_POST);
 $password  = get_variable('password', $_POST);
 
+//Make sure primary e-mail is set
+if (!empty($email)) {
+  exit(8);   //No email
+}
+
+//Make sure the password was set
+if (!empty($password)) {
+  exit(8);   //No password
+}
+
+
 //First, check if user already exists
 $table = 'users';
-$where = add_where("email", $email, $where = array());
-$fields = "namelast, namefirst";
+$where = add_where("primEmail", $email, $where = array());
+$fields = "primEmail";
 $response = select_from_table($table, $fields, $where);
 
 // Then add the user to the person table with only the e-mail address
 if (!empty($response)) {
+//  echo "User not Found \n";
   $record  = array();
   $records = array();
   $record  = add_field("primEmail", $email, $record);
   $record  = add_field("nameFirst", $namefirst, $record);
   $record  = add_field("nameLast", $namelast, $record);
   array_push($records, $record);
+  //echo "Start Insert Table.".json_encode($table). "\n";
+  //echo "Start Insert Fields.".json_encode($records). "\n";
   insert_into_table($table, $records);
   // Then select the unique ID that was created in previous step
   unset($where);
   unset($fields);
   unset($response);
-  $where = add_where("email", $email, $where = array());
+  $where = add_where("primEmail", $email, $where = array());
   $fields = "idPerson";
   $response = select_from_table($table, $fields, $where);
   //echo $response;
@@ -39,7 +53,8 @@ if (!empty($response)) {
   }
 //If ID is not set, then exit with message
   if (!isset($id)) {
-    echo "E-Mail $email does not exist";
+    echo "E-Mail $email was not saved";
+    exit(8);    //General Failure
   }  
   // Now add the password to the password table with unique ID assigned
   //Hash the password provided
@@ -73,6 +88,8 @@ else {
 }
 }
 else {    //only update password
-  echo 'user exists'.json_encode($response);
+  echo 'User already exists'.json_encode($response);
+  exit(2);  //Cannot be created.  Password updated
 }
+exit(3);
 ?>

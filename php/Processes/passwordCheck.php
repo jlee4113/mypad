@@ -12,7 +12,7 @@ $password = get_variable('password', $_POST);
 //If no password provided, then exit
 if (!isset($password)) {
   echo "No Password";
-  return("No Password provided for $email try again");
+  exit(8);
 }
 
 
@@ -30,6 +30,7 @@ if (!isset($id) and isset($email)) {
 //If ID is not set, then exit with message
 if (!isset($id)) {
   echo "E-Mail $email does not exist";
+  exit(8);
 }
 else {
   echo 'user exists'.json_encode($response);
@@ -45,12 +46,14 @@ if (!empty($response)) {
 }
 else {
   echo "Password was never set";
+  exit(8);
 }
 //Validate the password
 //echo 'New Password:'.$password;
 $valid = validatePassword($oldPassword, $password, $id);
 //echo 'The validation is: '.$valid;
 echo json_encode($valid);
+exit(1);
 //dummy comment
 
 ?>

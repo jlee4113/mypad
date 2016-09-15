@@ -62,7 +62,7 @@ function validatePassword($encOldPassword, $newPassword, $id) {
   }
   if ($check == false) {
   //increment the misses variable
-    include('..\utilities\mysqli_connect.php');
+    include('..\utilities\connect.php');
     $query = "UPDATE password SET misses = misses + 1 WHERE idPerson = $id";
     //echo $query;
     if ($con->query($query) === TRUE) {
@@ -173,7 +173,7 @@ function build_update_fields($params = array()) {
   return $list;
 }
 function general_query($query) {
-  include('..\utilities\mysqli_connect.php');
+  include('..\utilities\connect.php');
   $response = @mysqli_query($con, $query);
   if($response){
     while($row = mysqli_fetch_assoc($response)){
@@ -235,10 +235,9 @@ function select_from_table($table = '', $fields, $params = array()) {
 }
 
 function insert_into_table($table, $records = array()) {
-  include('..\utilities\mysqli_connect.php');
+  include('..\utilities\connect.php');
 // Build Field list and value list and insert 1 record at a time
-//  $keys = array_keys($records);
-  //echo json_encode($records);
+//  echo "Start insert_into_table.".json_encode($records)."\n";
   for($i = 0; $i < count($records); $i++) {
     $fields = null;
     $values = null;
@@ -268,7 +267,7 @@ function insert_into_table($table, $records = array()) {
 }
 
 function delete_from_table($table, $params = array()) {
-  include('..\utilities\mysqli_connect.php');
+  include('..\utilities\connect.php');
 // build parameters into where statement
   $where = build_where($params);
   // Only execute if where is populated...do not every delete whole table content
@@ -286,7 +285,7 @@ function delete_from_table($table, $params = array()) {
 }
 
 function modify_record($table, $update = array(), $params = array()) {
-  include('..\utilities\mysqli_connect.php');
+  include('..\utilities\connect.php');
 // This funciton assumes only 1 record (or set of parameters) is modified at a time  
   $where = build_where($params);
   $fields = null;
