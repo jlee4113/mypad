@@ -61,7 +61,7 @@ define(['pad'],function(pad,login,register){
         //    return;
         //}
         var loginReq = {
-            url: '../php/login.php',
+            url: '../php/Processes/passwordCheck.php',
             method: 'POST',
             data: props,
             success: function (res) {
@@ -83,14 +83,14 @@ define(['pad'],function(pad,login,register){
     me.register = function(){
         var ls = localStorage;
         var props = pad.helper.getInput('#register-form');
-        var good = me.validate(props);
-        if (!good){
-            alert('Failed validation');
-            return;
-        }
+        //var good = me.validate(props);
+        //if (!good){
+        //    alert('Failed validation');
+        //    return;
+        //}
         //check to see if email exists
         var reg = {
-                url: '../php/reister.php',
+                url: '../php/Processes/createUser.php',
                 method: 'POST',
                 data: props,
                 success: function (res) {
