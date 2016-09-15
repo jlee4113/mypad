@@ -7,7 +7,10 @@ $email     = get_variable('primEmail', $_POST);
 
 //Make sure primary e-mail is set
 if (!empty($email)) {
-  exit(1);   //No email
+  $return = array('returnCode', '1');
+  echo json_encode($return);
+  exit;   //No email
+
 }
 
 
@@ -20,9 +23,13 @@ $response = select_from_table($table, $fields, $where);
 // Then add the user to the person table with only the e-mail address
 if (!empty($response)) {
   echo 'Email does not exist';
-  exit(1);  //Cannot be created.  Password updated
+  $return = array('returnCode', '1');
+  echo json_encode($return);
+  exit;  //Cannot be created.  Password updated
 else {    //only update password
   echo 'Email exists';
-  exit(2);  //Cannot be created.  Password updated
+  $return = array('returnCode', '2');
+  echo json_encode($return);
+  exit;  //Cannot be created.  Password updated
 }
 ?>
