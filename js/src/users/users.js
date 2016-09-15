@@ -90,22 +90,34 @@ define(['pad'],function(pad,login,register){
         //}
         //check to see if email exists
         var reg = {
-                url: '../php/Processes/createUser.php',
-                method: 'POST',
-                data: props,
-                success: function (res) {
-                    //1=success, 0=username not found, 2=username found, but wrong password
-                    if (res == 1) {
-                        alert('Success');
-                    } else if (res == 0) {
-                        alert('Username already exists');
-                    }
-                },
-                failure: function (res) {
-                    alert('Login Failed <br>' + res);
+            url: '../php/Processes/createUser.php',
+            method: 'POST',
+            data: props,
+            success: function (res) {
+                //1=success, 0=username not found, 2=username found, but wrong password
+                if (res == 1) {
+                    alert('Success');
+                } else if (res == 0) {
+                    alert('Username already exists');
                 }
+            },
+            failure: function (res) {
+                alert('Login Failed <br>' + res);
+            }
             };
-        $.ajax(reg);
+        var check = {
+            url:'../php/Processes/validateEmail.php',
+            method: 'POST',
+            data: {primEmail: props.primEmail},
+            success: function(res) {
+                res = Number(res);
+                $.ajax(reg);
+            },
+            failure: function(res) {
+                alert('Failed validate email');
+            }
+        };
+        $.ajax(check);
     };
     me.init = function(){
         $('#login-submit').click(function(e){
