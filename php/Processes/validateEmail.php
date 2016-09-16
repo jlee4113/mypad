@@ -25,14 +25,14 @@ if (empty($email)) {
 
 // Then add the user to the person table with only the e-mail address
 if (empty($response)) {
-  echo "Email does not exist \n";
+//  echo "Email does not exist \n";
   $return = add_message("returnCode", "1", $return);
   $return = add_message("message", "Email does not exist", $return);
   echo json_encode($return);
   exit;  //Cannot be created.  Password updated
 }
 else {    //only update password
-  echo "Email exists \n";
+//  echo "Email exists \n";
   $return = add_message("returnCode", "2", $return);
   $return = add_message("message", "Email exists", $return);
   echo json_encode($return);

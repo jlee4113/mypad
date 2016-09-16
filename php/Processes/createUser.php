@@ -4,20 +4,27 @@ header('Access-Control-Allow-Origin: *');
 //these are the input parameters needed
 //$email = 'david.smith@me.com';
 //$password = 'mypassword';
-//echo "Start Process \n";
+// echo "Start Process \n";
 $email     = get_variable('primEmail', $_POST);
 $namefirst = get_variable('namefirst', $_POST);
 $namelast  = get_variable('namelast', $_POST);
 $password  = get_variable('password', $_POST);
 
+$return  = array();
 //Make sure primary e-mail is set
-if (!empty($email)) {
-  exit(8);   //No email
+if (empty($email)) {
+    $return = add_message("returnCode", "8", $return);
+    $return = add_message("message", "Email is empty.", $return);
+    echo json_encode($return);
+    exit; 
 }
 
 //Make sure the password was set
-if (!empty($password)) {
-  exit(8);   //No password
+if (empty($password)) {
+    $return = add_message("returnCode", "8", $return);
+    $return = add_message("message", "Password is empty.", $return);
+    echo json_encode($return);
+    exit; 
 }
 
 
@@ -28,7 +35,7 @@ $fields = "primEmail";
 $response = select_from_table($table, $fields, $where);
 
 // Then add the user to the person table with only the e-mail address
-if (!empty($response)) {
+if (empty($response)) {
 //  echo "User not Found \n";
   $record  = array();
   $records = array();
@@ -78,8 +85,8 @@ if (!empty($response)) {
     $record = add_field('locked', "0", $record);
     array_push($records, $record);
     insert_into_table('password', $records);
-}
-else {
+  }
+  else {
   //Modify
   $update  = array();
   $where   = array();
@@ -90,7 +97,7 @@ else {
   modify_record('password', $update, $where);
   $return = add_message("returnCode", "3", $return);
   $return = add_message("message", "User created and password set.", $return); 
-}
+  }
 }
 else {    //only update password
   echo 'User already exists'.json_encode($response);
