@@ -1,5 +1,5 @@
 <?php
-require_once('..\utilities\functions.php');
+require_once('../utilities/functions.php');
 header('Access-Control-Allow-Origin: *');
 //these are the input parameters needed
 //$email = 'david.smith@me.com';

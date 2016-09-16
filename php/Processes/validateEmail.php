@@ -1,6 +1,6 @@
 <?php
 require_once('../utilities/functions.php');
-echo 'hit';
+//echo "test";
 header('Access-Control-Allow-Origin: *');
 //echo "started \n";
 //these are the input parameters needed

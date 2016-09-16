@@ -1,5 +1,5 @@
 <?php
-require_once('..\utilities\functions.php');
+require_once('../utilities/functions.php');
 include('..\utilities\mysqli_connect.php');
 header('Access-Control-Allow-Origin: *');
 
