@@ -55,11 +55,6 @@ define(['pad'],function(pad,login,register){
             ls.clear();
         }
         var props = pad.helper.getInput('#login-form');
-        //var good = me.validate(props);
-        //if (!good){
-        //    alert('Failed validation');
-        //    return;
-        //}
         var loginReq = {
             url: '../php/Processes/passwordCheck.php',
             method: 'POST',
@@ -83,22 +78,15 @@ define(['pad'],function(pad,login,register){
     me.register = function(){
         var ls = localStorage;
         var props = pad.helper.getInput('#register-form');
-        //var good = me.validate(props);
-        //if (!good){
-        //    alert('Failed validation');
-        //    return;
-        //}
-        //check to see if email exists
         var reg = {
             url: '../php/Processes/createUser.php',
             method: 'POST',
             data: props,
             success: function (res) {
-                //1=success, 0=username not found, 2=username found, but wrong password
-                if (res == 1) {
-                    alert('Success');
-                } else if (res == 0) {
-                    alert('Username already exists');
+                res = JSON.parse(res);
+                var code = Number(res[0].returnCode);
+                if (res === 3) {
+                    alert('Success. Account Created');
                 }
             },
             failure: function (res) {
@@ -110,8 +98,17 @@ define(['pad'],function(pad,login,register){
             method: 'POST',
             data: {primEmail: props.primEmail},
             success: function(res) {
-                res = Number(res);
-                $.ajax(reg);
+                res = JSON.parse(res);
+                var code = Number(res[0].returnCode);
+                if (code === 2) {
+                    //add code to display that the account already exists
+                    alert('Account already exists');
+                    return;
+                }
+                if (code === 1) {
+                    //validated that the account does not exist. Continue on with the registration
+                    $.ajax(reg);
+                }
             },
             failure: function(res) {
                 alert('Failed validate email');
