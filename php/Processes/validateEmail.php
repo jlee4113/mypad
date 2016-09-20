@@ -1,19 +1,21 @@
 <?php
 require_once('../utilities/functions.php');
-//echo "test";
+include('../utilities/globals.php');
 header('Access-Control-Allow-Origin: *');
-//echo "started \n";
-//these are the input parameters needed
+
+//Declarations
+$return = new json();
+
+// Get Parameters
 $email     = get_variable('primEmail', $_POST);
 
 $return  = array();
 //Make sure primary e-mail is set
 if (empty($email)) {
-//  echo "Email Empty \n";
-  $return = add_message("returnCode", "8", $return);
-  $return = add_message("message", "Email Empty", $return);
+  $return->returnCode = '8';
+  $return->messages = add_to_array("message","Email Empty",$return->messages);
   echo json_encode($return);
-  exit;   //No email
+  exit;
 }
 
 
@@ -25,14 +27,11 @@ if (empty($email)) {
 
 // Then add the user to the person table with only the e-mail address
 if (empty($response)) {
-  $return = add_message("returnCode", "1", $return);
-  $return = add_message("message", "Email does not exist", $return);
-  echo json_encode($return);
-  exit;
+  $return->returnCode = '1';
+  $return->messages = add_to_array("message","Email does not exist",$return->messages);
 } else {
-  $return = add_message("returnCode", "2", $return);
-  $return = add_message("message", "Email exists", $return);
-  echo json_encode($return);
-  exit;
+  $return->returnCode = '2';
+  $return->messages = add_to_array("message","Email exists",$return->messages);  
 }
+echo json_encode($return);
 ?>

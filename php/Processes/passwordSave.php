@@ -1,11 +1,12 @@
 <?php
 require_once('..\utilities\functions.php');
-include('..\utilities\mysqli_connect.php');
+include('../utilities/globals.php');
 header('Access-Control-Allow-Origin: *');
 
-// Get User ID.  Either passed as the ID or pass as email
-//If email, then get ID
+//Declarations
+$return = new json();
 
+//get Parameters
 $id       = get_variable('idPerson', $_POST);
 $email    = get_variable('email', $_POST);
 $password = get_variable('password', $_POST);
@@ -31,7 +32,10 @@ if (!isset($id) and isset($email)) {
 
 //If ID is not set, then exit with message
 if (!isset($id)) {
-  echo "E-Mail $email does not exist";
+  $return->returnCode = '8';
+  $return->messages = add_to_array("message","E-Mail $email does not exist",$return->messages);
+  echo json_encode($return);
+  exit;
 }
 //echo $id;
 //Hash the password provided
@@ -54,6 +58,8 @@ if (empty(json_decode($response, true))) {
   $record = add_field('locked', "0", $record);
   array_push($records, $record);
   insert_into_table('password', $records);
+  $return->returnCode = '0';
+  $return->messages = add_to_array("message","Password Inserted",$return->messages);  
 }
 else {
   //Modify
@@ -64,5 +70,8 @@ else {
   $update  = add_field("locked", "0", $update);
   $where   = add_where("idPerson", $id, $where);
   modify_record('password', $update, $where);
+  $return->returnCode = '0';
+  $return->messages = add_to_array("message","Password Updated",$return->messages);   
 }
+echo json_encode($return);
 ?>

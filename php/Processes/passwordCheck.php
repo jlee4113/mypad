@@ -1,21 +1,20 @@
 <?php
 require_once('../utilities/functions.php');
-include('..\utilities\mysqli_connect.php');
+include('../utilities/globals.php');
 header('Access-Control-Allow-Origin: *');
 
-$return  = array();
+//Declarations
+$return = new json();
 
-// Get User ID.  Either passed as the ID or pass as email
-//If email, then get ID
+//get Parameters
 $id       = get_variable('idPerson', $_POST);
 $email    = get_variable('primEmail', $_POST);
 $password = get_variable('password', $_POST);
 
 //If no password provided, then exit
 if (!isset($password)) {
-//  echo "No Password";
-  $return = add_message("returnCode", "8", $return);
-  $return = add_message("message", "No Password", $return);
+  $return->returnCode = '8';
+  $return->messages = add_to_array("message","No Password",$return->messages);
   echo json_encode($return);  
   exit;
 }
@@ -35,13 +34,13 @@ if (!isset($id) and isset($email)) {
 //If ID is not set, then exit with message
 if (!isset($id)) {
   //  echo "E-Mail $email does not exist";
-  $return = add_message("returnCode", "8", $return);
-  $return = add_message("message", "Email $email does not exist", $return);
+  $return->returnCode = '8';
+  $return->messages = add_to_array("message","Email $email does not exist",$return->messages);  
   echo json_encode($return);
   exit;
 } else {
   //  echo 'user exists'.json_encode($response);
-  $return = add_message("message", "User Exists", $return); 
+  $return->messages = add_to_array("message","User Exists",$return->messages);  
 }
 
 //Get current password
@@ -53,8 +52,8 @@ if (!empty($response)) {
   //    echo 'Old Password:'.$oldPassword;
 } else {
  // echo "Password was never set";
-  $return = add_message("returnCode", "8", $return);
-  $return = add_message("message", "Password was never set", $return);
+  $return->returnCode = '8';
+  $return->messages = add_to_array("message","Password was never set",$return->messages);   
   echo json_encode($return);  
   exit;
 }
@@ -63,12 +62,12 @@ if (!empty($response)) {
 $valid = validatePassword($oldPassword, $password, $id);
 
 if ($valid == false) {  //failed validation
-  $return = add_message("returnCode", "2", $return);
-  $return = add_message("message", "Failed Validation", $return);
+  $return->returnCode = '2';
+  $return->messages = add_to_array("message","Failed Validation",$return->messages);   
 }
 else {
-  $return = add_message("returnCode", "1", $return);
-  $return = add_message("message", "Passed Validation", $return);
+  $return->returnCode = '1';
+  $return->messages = add_to_array("message","Passed Validation",$return->messages);    
 }  
 echo json_encode($return); 
 ?>

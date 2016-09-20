@@ -1,6 +1,10 @@
 <?php
 require_once('../utilities/functions.php');
+include('../utilities/globals.php');
 header('Access-Control-Allow-Origin: *');
+
+//Declarations
+$return   = new json();
 //these are the input parameters needed
 //$email = 'david.smith@me.com';
 //$password = 'mypassword';
@@ -10,21 +14,20 @@ $namefirst = get_variable('namefirst', $_POST);
 $namelast  = get_variable('namelast', $_POST);
 $password  = get_variable('password', $_POST);
 
-$return  = array();
 //Make sure primary e-mail is set
 if (empty($email)) {
-    $return = add_message("returnCode", "8", $return);
-    $return = add_message("message", "Email is empty.", $return);
-    echo json_encode($return);
-    exit; 
+  $return->returnCode = '8';
+  $return->messages = add_to_array("message","Email is empty",$return->messages);
+  echo json_encode($return);
+  exit; 
 }
 
 //Make sure the password was set
 if (empty($password)) {
-    $return = add_message("returnCode", "8", $return);
-    $return = add_message("message", "Password is empty.", $return);
-    echo json_encode($return);
-    exit; 
+  $return->returnCode = '8';
+  $return->messages = add_to_array("message","Password is empty",$return->messages);
+  echo json_encode($return);
+  exit; 
 }
 
 
@@ -61,8 +64,8 @@ if (empty($response)) {
 //If ID is not set, then exit with message
   if (!isset($id)) {
 //    echo "E-Mail $email was not saved";
-    $return = add_message("returnCode", "8", $return);
-    $return = add_message("message", "Email $email was not saved.  Contact System Administrator", $return);
+    $return->returnCode = '8';
+    $return->messages = add_to_array("message","Email $email was not saved.  Contact System Administrator",$return->messages);
     echo json_encode($return);
     exit;    
   }  
@@ -95,14 +98,13 @@ if (empty($response)) {
   $update  = add_field("locked", "0", $update);
   $where   = add_where("idPerson", $id, $where);
   modify_record('password', $update, $where);
-  $return = add_message("returnCode", "3", $return);
-  $return = add_message("message", "User created and password set.", $return); 
+  $return->returnCode = '3';
+  $return->messages = add_to_array("message","User created and password set",$return->messages);
   }
 }
 else {    //only update password
-  echo 'User already exists'.json_encode($response);
-  $return = add_message("returnCode", "2", $return);
-  $return = add_message("message", "Email already exists. Cannot create.  Password updated.", $return); 
+  $return->returnCode = '2';
+  $return->messages = add_to_array("Email already exists. Cannot create.",$return->messages);  
 }
 echo json_encode($return);
 ?>
