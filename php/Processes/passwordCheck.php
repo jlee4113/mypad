@@ -34,14 +34,13 @@ if (!isset($id) and isset($email)) {
 
 //If ID is not set, then exit with message
 if (!isset($id)) {
-//  echo "E-Mail $email does not exist";
+  //  echo "E-Mail $email does not exist";
   $return = add_message("returnCode", "8", $return);
   $return = add_message("message", "Email $email does not exist", $return);
   echo json_encode($return);
   exit;
-}
-else {
-//  echo 'user exists'.json_encode($response);
+} else {
+  //  echo 'user exists'.json_encode($response);
   $return = add_message("message", "User Exists", $return); 
 }
 
@@ -50,10 +49,9 @@ $params = add_where('idPerson', $id, $params = array());
 $response = select_from_table('password', 'password', $params);
 $response = json_decode($response, true);
 if (!empty($response)) {
-    $oldPassword = $response[0]['password'];
-//    echo 'Old Password:'.$oldPassword;
-}
-else {
+  $oldPassword = $response[0]['password'];
+  //    echo 'Old Password:'.$oldPassword;
+} else {
  // echo "Password was never set";
   $return = add_message("returnCode", "8", $return);
   $return = add_message("message", "Password was never set", $return);

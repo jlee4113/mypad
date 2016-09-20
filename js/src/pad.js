@@ -63,7 +63,7 @@ define(['jquery'],function($){
         render: function(feild){
             //insert code to handle render
         }
-    },
+    };
     pad.routes = {
         home: '#home',
         login: '#login',
@@ -81,9 +81,13 @@ define(['jquery'],function($){
             }
         },
         init: function() {
-            var me=this,
-                navs = $('.nav'),nav,
-                customRender = $('.custom-render');
+            var me=this;
+            $(document).on('click','.nav',function(e){
+                var target = e.target.getAttribute('nav');
+                me.route(target);
+            });
+            var navs = $('.nav'),nav,
+                customRender = $('.custom-render'),
                 urlPath = pad.helper.getUrlParam('route');
             if (!urlPath) urlPath = 'login';
             if (urlPath) {

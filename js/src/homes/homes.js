@@ -44,11 +44,16 @@ define(['pad','zillow','google','homes'],function(pad,z,g,homes){
         z.getInfo(address,cityState,function(res){
             if(!res) res = "No Response";
             homes.process(res);
-            var zest = $(me.createDivs(homes.data[0])),
-                res = '';
-            for (var i=0; i<zest.length; i++) {
-                pad.routes.showResults(zest[i],true);
-            }
+            var zest = $(me.createDivs(homes.data[0]));
+            $.ajax({
+                url: 'html/claim-home-btn.html',
+                success: function(res){
+                    zest.splice(0,0,res);
+                    for (var i=0; i<zest.length; i++) {
+                        pad.routes.showResults(zest[i],true);
+                    }
+                }
+            });
         });
     };
     return me;

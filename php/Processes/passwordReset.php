@@ -1,18 +1,23 @@
 <?php
-require_once('..\utilities\functions.php');
-include('..\utilities\mysqli_connect.php');
+require_once('../utilities/functions.php');
+include('../utilities/mysqli_connect.php');
 header('Access-Control-Allow-Origin: *');
-
 // Get User ID.  Either passed as the ID or pass as email
 //If email, then get ID
+
+class json {
+    public $returnCode = "";
+    public $messages = array();
+    public $data = array();
+}
 
 $id       = get_variable('idPerson', $_POST);
 $email    = get_variable('primEmail', $_POST);
 $password = get_variable('password', $_POST);
+$return = new json();
 
 //If ID is not set and e-mail is set then get ID
 if (!isset($id) and isset($email)) {
-  //echo $email;
   $params = add_where('primEmail', $email, $params = array());
   $response = select_from_table('users', 'idPerson', $params);
   //echo $response;
@@ -24,12 +29,14 @@ if (!isset($id) and isset($email)) {
 
 //If ID is not set, then exit with message
 if (!isset($id)) {
-  echo "E-Mail $email does not exist";
+  $return = add_message("returnCode", "8", $return);
+  $return = add_message("message", "Cannot find user.", $return);
+  echo json_encode($return);
+  exit;
 }
 
 //Create a random password
 $password = generateRandomString('5');
-//echo $password;
 
 //Hash the password provided
 $hash = encryptPassword($password);
@@ -40,7 +47,6 @@ $params = array();
 $response = null;
 $params = add_where('idPerson', $id, $params);
 $response = select_from_table('password', 'idPerson', $params);
-//echo $response;
 if (empty(json_decode($response, true))) {
   //Insert
   $record = array();
@@ -51,17 +57,20 @@ if (empty(json_decode($response, true))) {
   $record = add_field('locked', "0", $record);
   array_push($records, $record);
   insert_into_table('password', $records);
-  echo 'Password Created';
-}
-else {
+  echo 'Password Created - New Password is '.$password;
+} else {
   //Modify
   $update  = array();
   $where   = array();
+  $data    = array();
   $update  = add_field("password", $hash, $update);
   $update  = add_field("misses", "0", $update);
   $update  = add_field("locked", "0", $update);
   $where   = add_where("idPerson", $id, $where);
   modify_record('password', $update, $where);
-  echo 'Password Updated';
+  $return->returnCode = '8';
+  $return->messages = add_to_array("message","Successfuly Updated",$return->messages);
+  $return->data = add_to_array("newPassword",$password,$return->data);
+  echo json_encode($return);
 }
 ?>

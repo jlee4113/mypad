@@ -29,14 +29,16 @@ define(['pad'],function(pad,login,register){
         }
     };
     me.recover = {
-        pass: function(email){
+        pass: function(){
+            var props = pad.helper.getInput('#reset-password-form'),
+                email = props.primEmail;
             var ajax = {
                 method: 'POST',
-                url: '../php/recover.php',
-                params: {email: email},
+                url: '../php/Processes/passwordReset.php',
+                data: {primEmail: email},
                 success: function(res) {
-                    //navigate to page that tells user that their password has been sent to them
-                    alert('Password has been sent');
+                    res = JSON.parse(res);
+                    alert('New password is '+res.data[0].newPassword);
                 },
                 failure: function(res) {
                     //tell user that the email could not be found
@@ -123,7 +125,7 @@ define(['pad'],function(pad,login,register){
         $('#register-submit').click(function(e){
             me.register()
         });
-        $('.recover-pass').click(function(e){
+        $('#reset-password').click(function(e){
             me.recover.pass()
         });
         $('.cache').click(function(e){

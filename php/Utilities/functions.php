@@ -107,6 +107,11 @@ function add_message($field, $value, $message = array()) {
   array_push($message, $row);
   return $message;
 }
+function add_to_array($field, $value, $array){
+  $row = array($field => $value);
+  array_push($array, $row);
+  return $array;
+}
 function add_where($field, $value, $where = array()) {
   $row = array('field' => $field, 'value' => $value);
   array_push($where, $row);
@@ -303,7 +308,7 @@ function modify_record($table, $update = array(), $params = array()) {
     $modify = "UPDATE $table SET $fields WHERE $where";
     //echo $modify;
     if ($con->query($modify) === TRUE) {
-      echo "Records Modified";
+      //echo "Records Modified";
     } 
     else {
       echo "Error: " . $modify . "<br>" . $con->error;
