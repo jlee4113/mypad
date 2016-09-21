@@ -9,9 +9,9 @@ $records = array();
 
 //these are the input parameters needed
 $idHome    = get_variable('idHome', $_GET);
-$idPerson  = get_variable('idPerson', $_POST);
-$address   = get_variable('address', $_POST);
-$zip       = get_variable('zip', $_POST);
+$idPerson  = get_variable('idPerson', $_GET);
+$address   = get_variable('address', $_GET;
+$zip       = get_variable('zip', $_GET);
 $and       = " and ";
 if (!empty($idHome)) {
   $where = "homes.idHome = $idHome";
