@@ -38,7 +38,20 @@ define(['pad'],function(pad,login,register){
                 data: {primEmail: email},
                 success: function(res) {
                     res = JSON.parse(res);
-                    alert('New password is '+res.data[0].newPassword);
+                    $.ajax({
+                        method: 'POST',
+                        url: 'php/Processes/sendEmail.php',
+                        data: {
+                            sendTo: email,
+                            password: res.data[0].newPassword
+                        },
+                        success: function(res) {
+                            console.log('Success');
+                        },
+                        error: function(res) {
+                            console.log('Error');
+                        }
+                    });
                 },
                 failure: function(res) {
                     //tell user that the email could not be found
