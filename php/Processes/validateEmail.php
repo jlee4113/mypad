@@ -9,7 +9,6 @@ $return = new json();
 // Get Parameters
 $email     = get_variable('primEmail', $_POST);
 
-$return  = array();
 //Make sure primary e-mail is set
 if (empty($email)) {
   $return->returnCode = '8';
@@ -26,7 +25,7 @@ if (empty($email)) {
  $response = select_from_table($table, $fields, $where);
 
 // Then add the user to the person table with only the e-mail address
-if (empty($response)) {
+if (empty(json_decode($response, true))) {
   $return->returnCode = '1';
   $return->messages = add_to_array("message","Email does not exist",$return->messages);
 } else {
