@@ -1,13 +1,9 @@
 <?php
 require_once('../utilities/functions.php');
-require_once('../utilities/creds.php');
+define('REQUIRED_FILE','../Vendor/aws/aws-autoloader.php');
 
 $email     = get_variable('sendTo', $_POST);
 $password = get_variable('password', $_POST);
-
-// Replace path_to_sdk_inclusion with the path to the SDK as described in
-// http://docs.aws.amazon.com/aws-sdk-php/v2/guide/quick-start.html
-define('REQUIRED_FILE','../Vendor/aws/aws-autoloader.php');
 
 // Replace sender@example.com with your "From" address.
 // This address must be verified with Amazon SES.
