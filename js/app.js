@@ -16,7 +16,8 @@ requirejs.config({
         login: 'src/users/login',
         register: 'src/users/register',
         homes: 'src/stores/homes',
-        proxies: 'src/stores/proxies'
+        proxies: 'src/stores/proxies',
+        userStore: 'src/stores/users'
     }
 });
 require(['pad'],function(pad){

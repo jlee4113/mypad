@@ -5,3 +5,30 @@
 #results {
 	padding: 20px;
 }
+#nav-menu-right {
+	position: absolute;
+	top: 0;
+	right: 0;
+	padding: 0 30px 0 0;
+	color: #101010;
+}
+
+#nav-menu-left {
+	position: absolute;
+	left: 0;
+	padding: 0 0px 30px 0;
+	color: #101010;
+}
+
+#nav-menu-bar {
+	min-width: 990px;
+	width: 100%;
+	position: relative;
+	margin: 0 0 15px;
+	height: 40px;
+	white-space: nowrap;
+	border-style: solid;
+	border-color: #ccc;
+	border-width: 0 0 1px;
+	text-shadow: 0 1px 0 #000;
+}

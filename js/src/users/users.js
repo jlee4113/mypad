@@ -1,5 +1,6 @@
-define(['pad'],function(pad,login,register){
-    var me = pad.users;
+define(['pad','userStore'],function(pad,userStore){
+    var me = pad.users,
+        helper = pad.helper;
     me.required = {
         email: true,
         password: true,
@@ -7,6 +8,9 @@ define(['pad'],function(pad,login,register){
         lastName: true
     };
     me.cached = false;
+    me.updateNav = function() {
+        pad.helper.addHtml('#nav-menu-right','nav-account');
+    };
     me.validate = function(props,type){
         var req = me.required;
         if (type == 'login') {
@@ -43,7 +47,8 @@ define(['pad'],function(pad,login,register){
                         url: 'php/Processes/sendEmail.php',
                         data: {
                             sendTo: email,
-                            password: res.data[0].newPassword
+                            emailContent: 'Your new password is: '+res.data[0].newPassword,
+                            emailTitle: 'MyPad Password Update'
                         },
                         success: function(res) {
                             console.log('Success');
@@ -75,13 +80,24 @@ define(['pad'],function(pad,login,register){
             method: 'POST',
             data: props,
             success: function (res) {
-                //1=success, 0=username not found, 2=username found, but wrong password
-                if (res == 1) {
-                    alert('Success');
-                } else if (res = 0) {
-                    alert('username not found');
-                } else if (res = 2) {
-                    alert('username found, but wrong password');
+                res = JSON.parse(res);
+                if (Number(res.returnCode) === 1) {
+                    pad.helper.validate(props.primEmail,function(res){
+                        if (!res.returnCode) {
+                            console.log('failure');
+                            //add code to handle failure
+                        }
+                        if (res.returnCode == '2' || res.returnCode === 2) {
+                            ls.setItem('userId',res.data[0].idPerson);
+                            userStore.process(res);
+                            helper.updateActivity();
+                        }
+                    });
+                    ls.setItem('email',props.primEmail);
+                    me.updateNav();
+                }
+                if (res.returnCode !== 1) {
+                    console.log('nope');
                 }
             },
             failure: function (res) {
@@ -144,6 +160,7 @@ define(['pad'],function(pad,login,register){
         $('.cache').click(function(e){
             me.cached = e.target.value()
         });
+        me.updateNav();
     };
     return me;
 });

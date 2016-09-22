@@ -49,8 +49,10 @@ define(['pad','zillow','google','homes'],function(pad,z,g,homes){
                 url: 'html/claim-home-btn.html',
                 success: function(res){
                     zest.splice(0,0,res);
+                    var append = false;
                     for (var i=0; i<zest.length; i++) {
-                        pad.routes.showResults(zest[i],true);
+                        if (i>0) append = true;
+                        pad.routes.showResults(zest[i],append);
                     }
                 }
             });
