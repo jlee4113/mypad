@@ -9,6 +9,7 @@ requirejs.config({
         google: 'api/google',
         redfin: 'api/redfin',
         trulia: 'api/trulia',
+        zip: 'api/zip',
         mls: 'api/mls.js',
         pad: 'src/pad',
         home: 'src/homes/homes',

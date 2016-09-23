@@ -1,4 +1,4 @@
-define(['pad','zillow','google','homes'],function(pad,z,g,homes){
+define(['pad','zillow','google','homes','zip'],function(pad,z,g,homes,zip){
     var me = pad.home;
     if (!me) me = {}; pad.home = me;
     me.init = function(){

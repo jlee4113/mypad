@@ -1,5 +1,6 @@
 <?php
 require_once('../utilities/functions.php');
+require_once('../utilities/creds.php');
 define('REQUIRED_FILE','../Vendor/aws/aws-autoloader.php');
 
 $email     = get_variable('sendTo', $_POST);

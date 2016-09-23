@@ -1,5 +1,5 @@
 define(['jquery'],function($){
-    var pad = {};
+    pad = {};
     var ls = localStorage;
     pad.users = {
         views: {
@@ -112,6 +112,7 @@ define(['jquery'],function($){
         register: '#register',
         listing: '#listing',
         route: function(path) {
+            path = decodeURIComponent(path);
             $('#widget').load('html/'+path+'.html');
             $('#results').html('');
         },
