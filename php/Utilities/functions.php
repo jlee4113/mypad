@@ -228,6 +228,9 @@ function select_from_table($table = '', $fields, $params = array(), $debug) {
     echo $query;
   }
   $response = @mysqli_query($con, $query);
+  if ($debug == 'true') {
+    echo json_encode($response);
+  }
 //Convert to JSON
   $temparray = array();
   //echo json_encode($response). "<br>";
@@ -236,8 +239,7 @@ function select_from_table($table = '', $fields, $params = array(), $debug) {
     while($row = mysqli_fetch_assoc($response)){
       $temparray[] = $row;
     }
-//  $response = json_encode($temparray);
-    return $response;
+    return array_filter($response);
   }
   else {
 //Failed
@@ -270,7 +272,7 @@ function insert_into_table($table, $records = array()) {
     $insert = "INSERT INTO $table ($fields) VALUES ($values)";
     //echo $insert;
     if ($con->query($insert) === TRUE) {
-      echo json_encode("New record created successfully");
+      return $con->insert_id;
     } 
     else {
       echo json_encode("Error: " . $insert . "<br>" . $con->error);
