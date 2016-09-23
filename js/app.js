@@ -9,6 +9,7 @@ requirejs.config({
         google: 'api/google',
         redfin: 'api/redfin',
         trulia: 'api/trulia',
+        zip: 'api/zip',
         mls: 'api/mls.js',
         pad: 'src/pad',
         home: 'src/homes/homes',
@@ -16,7 +17,8 @@ requirejs.config({
         login: 'src/users/login',
         register: 'src/users/register',
         homes: 'src/stores/homes',
-        proxies: 'src/stores/proxies'
+        proxies: 'src/stores/proxies',
+        userStore: 'src/stores/users'
     }
 });
 require(['pad'],function(pad){

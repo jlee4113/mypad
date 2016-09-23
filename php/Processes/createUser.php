@@ -43,8 +43,7 @@ if (empty($response)) {
   $record  = array();
   $records = array();
   $record  = add_field("primEmail", $email, $record);
-  $record  = add_field("nameFirst", $namefirst, $record);
-  $record  = add_field("nameLast", $namelast, $record);
+  $record  = add_field('name', $name);
   array_push($records, $record);
   //echo "Start Insert Table.".json_encode($table). "\n";
   //echo "Start Insert Fields.".json_encode($records). "\n";

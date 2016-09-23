@@ -1,5 +1,6 @@
 define(['jquery'],function($){
-    var pad = {};
+    pad = {};
+    var ls = localStorage;
     pad.users = {
         views: {
             login: '#login',
@@ -41,6 +42,14 @@ define(['jquery'],function($){
             }
             return obj;
         },
+        addHtml: function(parentDiv,html,append){
+            if (append) {
+                $(parentDiv).load('html/'+html+'.html');
+            } else {
+                $(parentDiv).html('');
+                $(parentDiv).load('html/'+html+'.html');
+            }
+        },
         getUrlParam: function(name,url) {
             if (!url) url = window.location.href;
             name = name.replace(/[\[\]]/g, "\\$&");
@@ -49,6 +58,39 @@ define(['jquery'],function($){
             if (!results) return null;
             if (!results[2]) return '';
             return decodeURIComponent(results[2].replace(/\+/g, " "));
+        },
+        loggedIn: function() {
+            var now = Date.now(),
+                last = ls.getItem('lastActivity');
+            if (!last) return false;
+            //if last activity was over an hour, force login.
+            if (now-ls.getItem('lastActivity') > 3600000) return false;
+            else return true;
+        },
+        updateActivity: function(){
+            ls.setItem('lastActivity',Date.now());
+        },
+        convertDate: function(val, format){
+            //assumes YYYYMMDD
+            if (!format) format = 'm/d/Y';
+            //add code to format date based on format
+            return val;
+        },
+        validate: function(email,callback) {
+            $.ajax({
+                url: 'php/Processes/validateEmail.php',
+                method: 'POST',
+                data: {
+                    primEmail: email
+                },
+                success: function(res){
+                    res = JSON.parse(res);
+                    if (callback) callback(res);
+                },
+                failure: function(res) {
+                    if (callback) callback(res);
+                }
+            });
         },
         cache: {
             get: function(param){
@@ -70,6 +112,7 @@ define(['jquery'],function($){
         register: '#register',
         listing: '#listing',
         route: function(path) {
+            path = decodeURIComponent(path);
             $('#widget').load('html/'+path+'.html');
             $('#results').html('');
         },
@@ -86,13 +129,20 @@ define(['jquery'],function($){
                 var target = e.target.getAttribute('nav');
                 me.route(target);
             });
+            $(document).on("click mousedown mouseup focus blur keydown change", function(){
+                pad.helper.updateActivity();
+            });
             var navs = $('.nav'),nav,
                 customRender = $('.custom-render'),
                 urlPath = pad.helper.getUrlParam('route');
-            if (!urlPath) urlPath = 'login';
-            if (urlPath) {
-                me.route(urlPath);
+            if (!urlPath) {
+                if (!pad.helper.loggedIn()) {
+                    urlPath = 'login';
+                } else {
+                    urlPath = 'home';
+                }
             }
+            me.route(urlPath);
             for (var i=0; i<navs.length; i++) {
                 nav = navs[i];
                 $(nav).click(function(e){

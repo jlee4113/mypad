@@ -25,7 +25,8 @@
         </div>
     </div>
     <script>
-        require(['home'],function(home){
+        require(['home','users'],function(home,users){
+            users.init();
             home.init();
         });
     </script>

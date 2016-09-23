@@ -1,5 +1,6 @@
-define(['pad'],function(pad,login,register){
-    var me = pad.users;
+define(['pad','userStore'],function(pad,userStore){
+    var me = pad.users,
+        helper = pad.helper;
     me.required = {
         email: true,
         password: true,
@@ -7,6 +8,9 @@ define(['pad'],function(pad,login,register){
         lastName: true
     };
     me.cached = false;
+    me.updateNav = function() {
+        pad.helper.addHtml('#nav-menu-right','nav-account');
+    };
     me.validate = function(props,type){
         var req = me.required;
         if (type == 'login') {
@@ -29,37 +33,59 @@ define(['pad'],function(pad,login,register){
         }
     };
     me.recover = {
-        pass: function(){
+        recoverPass: function(){
             var props = pad.helper.getInput('#reset-password-form'),
                 email = props.primEmail;
-            var ajax = {
+            function getContent(email){
+                var val = 'Reset your password here: http://'+document.domain+
+                    '?email='+email+'&route=change-password';
+                return val;
+            }
+            $.ajax({
                 method: 'POST',
-                url: '../php/Processes/passwordReset.php',
-                data: {primEmail: email},
-                success: function(res) {
-                    res = JSON.parse(res);
-                    $.ajax({
-                        method: 'POST',
-                        url: 'php/Processes/sendEmail.php',
-                        data: {
-                            sendTo: email,
-                            password: res.data[0].newPassword
-                        },
-                        success: function(res) {
-                            console.log('Success');
-                        },
-                        error: function(res) {
-                            console.log('Error');
-                        }
-                    });
+                url: 'php/Processes/sendEmail.php',
+                data: {
+                    sendTo: email,
+                    emailContent: getContent(email),
+                    emailTitle: 'Password Update'
                 },
-                failure: function(res) {
-                    //tell user that the email could not be found
-                    alert('Email not found');
+                success: function(res) {
+                    console.log('Success');
+                },
+                error: function(res) {
+                    console.log('Error');
                 }
-            };
-            $.ajax(ajax);
+            });
         },
+        init: function() {
+            var email = pad.helper.getUrlParam('email');
+            $('#email').html(email).attr('value',email);
+        },
+        setPass: function() {
+            var props = pad.helper.getInput('#change-password-form'),
+                ajax = {
+                    method: 'POST',
+                    url: '../php/Processes/passwordSave.php',
+                    data: {
+                        email: pad.helper.getUrlParam('email'),
+                        password: props.password
+                    },
+                    success: function(res) {
+                        res = JSON.parse(res)
+                        if (Number(res.returnCode) === 0) {
+                            pad.routes.showResults('Password successfully updated');
+                            setTimeout(function(){
+                                window.location.href = 'http://'+document.domain+'?route=list';
+                            },2000);
+                        }
+                    },
+                    error: function(res) {
+                        res = JSON.parse(res);
+                        console.log('error');
+                    }
+                };
+            $.ajax(ajax);
+        }
     };
     me.login = function(){
         var ls = localStorage;
@@ -75,13 +101,24 @@ define(['pad'],function(pad,login,register){
             method: 'POST',
             data: props,
             success: function (res) {
-                //1=success, 0=username not found, 2=username found, but wrong password
-                if (res == 1) {
-                    alert('Success');
-                } else if (res = 0) {
-                    alert('username not found');
-                } else if (res = 2) {
-                    alert('username found, but wrong password');
+                res = JSON.parse(res);
+                if (Number(res.returnCode) === 1) {
+                    pad.helper.validate(props.primEmail,function(res){
+                        if (!res.returnCode) {
+                            console.log('failure');
+                            //add code to handle failure
+                        }
+                        if (res.returnCode == '2' || res.returnCode === 2) {
+                            ls.setItem('userId',res.data[0].idPerson);
+                            userStore.process(res);
+                            helper.updateActivity();
+                        }
+                    });
+                    ls.setItem('email',props.primEmail);
+                    me.updateNav();
+                }
+                if (res.returnCode !== 1) {
+                    console.log('nope');
                 }
             },
             failure: function (res) {
@@ -139,11 +176,16 @@ define(['pad'],function(pad,login,register){
             me.register()
         });
         $('#reset-password').click(function(e){
-            me.recover.pass()
+            me.recover.recoverPass()
+        });
+        $('#update-password-btn').click(function(e){
+            me.recover.setPass()
         });
         $('.cache').click(function(e){
             me.cached = e.target.value()
         });
+        me.updateNav();
+
     };
     return me;
 });
