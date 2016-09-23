@@ -15,6 +15,8 @@ define('RECIPIENT', $email);
 
 // Replace us-west-2 with the AWS region you're using for Amazon SES.
 define('REGION','us-west-2');
+//define('AWS_KEY','AKIAJE5C433ILFOR56BA');
+//define('AWS_SECRET','SQJrx8GtGHGNat2i0iwepXTMGDUPBfLtd80owPTY');
 
 define('SUBJECT','Password Update');
 define('BODY','Your new password is '.$password);
@@ -25,7 +27,7 @@ use Aws\Ses\SesClient;
 
 $client = SesClient::factory(array(
     'version'=> 'latest',
-    'region' => REGION
+    'region' => REGION,
 ));
 
 $request = array();

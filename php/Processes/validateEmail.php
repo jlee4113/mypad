@@ -5,6 +5,7 @@ header('Access-Control-Allow-Origin: *');
 
 //Declarations
 $return = new json();
+$response = array();
 
 // Get Parameters
 $email     = get_variable('primEmail', $_POST);
@@ -21,7 +22,7 @@ if (empty($email)) {
 //Check if exists
  $table = 'users';
  $where = add_where("primEmail", $email, $where = array());
- $fields = "primEmail";
+ $fields = "*";
  $response = select_from_table($table, $fields, $where);
 
 // Then add the user to the person table with only the e-mail address
@@ -31,6 +32,7 @@ if (empty(json_decode($response, true))) {
 } else {
   $return->returnCode = '2';
   $return->messages = add_to_array("message","Email exists",$return->messages);  
+  $return->data = $response;
 }
 echo json_encode($return);
 ?>
