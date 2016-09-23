@@ -35,7 +35,7 @@
         <entry file="file://$PROJECT_DIR$/php/Utilities/creds.php">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.013888889">
-              <caret line="1" column="0" selection-start-line="1" selection-start-column="0" selection-end-line="1" selection-end-column="0" />
+              <caret line="1" column="11" selection-start-line="1" selection-start-column="11" selection-end-line="1" selection-end-column="11" />
               <folding />
             </state>
           </provider>
@@ -894,7 +894,7 @@
     <entry file="file://$PROJECT_DIR$/php/Utilities/creds.php">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.013888889">
-          <caret line="1" column="0" selection-start-line="1" selection-start-column="0" selection-end-line="1" selection-end-column="0" />
+          <caret line="1" column="11" selection-start-line="1" selection-start-column="11" selection-end-line="1" selection-end-column="11" />
           <folding />
         </state>
       </provider>
