@@ -203,7 +203,8 @@ function general_query($query) {
     echo mysqli_error($con);
   }
 }
-function select_from_table($table = '', $fields, $params = array()) {
+
+function select_from_table($table = '', $fields, $params = array(), $debug) {
   include('../utilities/connect.php');
 // build list of fields into a string
   unset($field_list);
@@ -223,6 +224,9 @@ function select_from_table($table = '', $fields, $params = array()) {
   else {
     $query = "SELECT $field_list FROM $table";
   }
+  if ($debug == 'true') {
+    echo $query;
+  }
   $response = @mysqli_query($con, $query);
 //Convert to JSON
   $temparray = array();
@@ -233,7 +237,7 @@ function select_from_table($table = '', $fields, $params = array()) {
       $temparray[] = $row;
     }
     $response = json_encode($temparray);
-    return $response;
+    return array_filter($response);
   }
   else {
 //Failed

@@ -136,8 +136,8 @@ define(['pad','userStore'],function(pad,userStore){
             data: props,
             success: function (res) {
                 res = JSON.parse(res);
-                var code = Number(res[0].returnCode);
-                if (res === 3) {
+                var code = Number(res.returnCode);
+                if (code === 3) {
                     alert('Success. Account Created');
                 }
             },
@@ -151,7 +151,7 @@ define(['pad','userStore'],function(pad,userStore){
             data: {primEmail: props.primEmail},
             success: function(res) {
                 res = JSON.parse(res);
-                var code = Number(res[0].returnCode);
+                var code = Number(res.returnCode);
                 if (code === 2) {
                     //add code to display that the account already exists
                     alert('Account already exists');
@@ -169,16 +169,16 @@ define(['pad','userStore'],function(pad,userStore){
         $.ajax(check);
     };
     me.init = function(){
-        $('#login-submit').click(function(e){
+        $('#login-submit').unbind('click').click(function(e){
             me.login();
         });
-        $('#register-submit').click(function(e){
+        $('#register-submit').unbind('click').click(function(e){
             me.register()
         });
-        $('#reset-password').click(function(e){
+        $('#reset-password').unbind('click').click(function(e){
             me.recover.recoverPass()
         });
-        $('#update-password-btn').click(function(e){
+        $('#update-password-btn').unbind('click').click(function(e){
             me.recover.setPass()
         });
         $('.cache').click(function(e){

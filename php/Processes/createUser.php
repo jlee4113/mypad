@@ -36,27 +36,30 @@ $table = 'users';
 $where = add_where("primEmail", $email, $where = array());
 $fields = "primEmail";
 $response = select_from_table($table, $fields, $where);
-
 // Then add the user to the person table with only the e-mail address
 if (empty($response)) {
 //  echo "User not Found \n";
   $record  = array();
   $records = array();
   $record  = add_field("primEmail", $email, $record);
-  $record  = add_field('name', $name);
   array_push($records, $record);
   //echo "Start Insert Table.".json_encode($table). "\n";
   //echo "Start Insert Fields.".json_encode($records). "\n";
   insert_into_table($table, $records);
+
   // Then select the unique ID that was created in previous step
   unset($where);
   unset($fields);
   unset($response);
+
+  $table = 'users';
   $where = add_where("primEmail", $email, $where = array());
-  $fields = "idPerson";
-  $response = select_from_table($table, $fields, $where);
-  //echo $response;
-  $response = json_decode($response, true);
+  $fields = "*";
+  $response = select_from_table($table, $fields, $where, 'true');
+
+  echo json_encode($response);
+  exit;
+
   if (!empty($response)) {
     $id = $response[0]['idPerson'];
   }
