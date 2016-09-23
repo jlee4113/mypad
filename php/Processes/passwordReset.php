@@ -68,7 +68,7 @@ if (empty(json_decode($response, true))) {
   modify_record('password', $update, $where);
   $return->returnCode = '0';
   $return->messages = add_to_array("message","Successfuly Updated",$return->messages);
-  $return->data = add_to_array("newPassword",$password,$return->data);
+  $return->data = $response;
 }
 echo json_encode($return);
 ?>

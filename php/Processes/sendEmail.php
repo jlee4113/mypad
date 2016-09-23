@@ -10,6 +10,7 @@ $title     = get_variable('emailTitle',$_POST);
 define('SENDER', 'ninjas@mypadaz.com');
 define('RECIPIENT', $email);
 define('REGION','us-west-2');
+
 define('SUBJECT','Password Update');
 define('BODY',$content);
 
@@ -19,7 +20,7 @@ use Aws\Ses\SesClient;
 
 $client = SesClient::factory(array(
     'version'=> 'latest',
-    'region' => REGION
+    'region' => REGION,
 ));
 
 $request = array();

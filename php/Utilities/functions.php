@@ -236,8 +236,8 @@ function select_from_table($table = '', $fields, $params = array(), $debug) {
     while($row = mysqli_fetch_assoc($response)){
       $temparray[] = $row;
     }
-    $response = json_encode($temparray);
-    return array_filter($response);
+//  $response = json_encode($temparray);
+    return $response;
   }
   else {
 //Failed
