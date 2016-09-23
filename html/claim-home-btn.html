@@ -3,3 +3,10 @@
         <input type="button" id="claim-home-btn" class="submit form-control btn btn-register" value="Claim Home">
     </div>
 </div>
+<script>
+    require(['home'],function(homes){
+        $('#claim-home-btn').click(function(e){
+            homes.claimHome();
+        });
+    });
+</script>

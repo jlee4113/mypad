@@ -34,6 +34,7 @@ if (empty($zip)) {
   $return = add_message("returnCode", "8", $return);
   $return = add_message("message", "Zip Code is not set", $return);
 }
+
 if ($return->returnCode == '8') {
   echo json_encode($return);
   exit; 
@@ -61,7 +62,7 @@ unset($emptyTestArray);
 $where = add_where("idHome", $idHome, $where);
 $fields = "idHome";
 $response = select_from_table($table, $fields, $where);
-$EmptyTestArray = array_filter($response);
+$EmptyTestArray = $response;
 if (empty($EmptyTestArray)) {
   $return = add_message("returnCode", "8", $return);
   $return = add_message("message", "Invalid Home ID $idHome", $return);

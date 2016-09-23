@@ -1,9 +1,30 @@
 define(['pad','zillow','google','homes','zip'],function(pad,z,g,homes,zip){
     var me = pad.home;
     if (!me) me = {}; pad.home = me;
+    var ls = localStorage;
     me.init = function(){
         $('#home-submit').click(function(e){
             me.getHomeInfo();
+        });
+    };
+    me.claimHome = function() {
+        var home = me.currentHome,
+            address = home.address,
+            zip = home.zip;
+        $.ajax({
+            url: '../php/Processes/createHome.php',
+            data: {
+                idPerson: ls.getItem('userId'),
+                address: address,
+                zip: zip
+            },
+            method: 'POST',
+            success: function(res) {
+                res = JSON.parse(res);
+            },
+            error: function(res) {
+                console.log('error');
+            }
         });
     };
     me.createDivs = function(data) {
@@ -36,27 +57,42 @@ define(['pad','zillow','google','homes','zip'],function(pad,z,g,homes,zip){
         }
         return returnVal;
     };
-    me.getHomeInfo = function(){
-        var ls = localStorage;
-        var props = pad.helper.getInput('#home-info'),
-            address = props.address,
-            cityState = props.city+' '+props.state;
-        z.getInfo(address,cityState,function(res){
-            if(!res) res = "No Response";
-            homes.process(res);
-            var zest = $(me.createDivs(homes.data[0]));
-            $.ajax({
-                url: 'html/claim-home-btn.html',
-                success: function(res){
-                    zest.splice(0,0,res);
-                    var append = false;
-                    for (var i=0; i<zest.length; i++) {
-                        if (i>0) append = true;
-                        pad.routes.showResults(zest[i],append);
+    me.getCityState = function(zipCode,callback){
+        zip.getCityState(zipCode,function(res){
+            res = JSON.parse(res);
+            var cityState = res.city+' '+res.state;
+            if (callback) callback(cityState);
+        });
+    };
+    me.listHomeInfo = function(address, zip){
+        me.currentHome = {
+            address: address,
+            zip: zip
+        };
+        me.getCityState(zip,function(cityState){
+            z.getInfo(address,cityState,function(res){
+                if(!res) res = "No Response";
+                homes.process(res);
+                var zest = $(me.createDivs(homes.data[0]));
+                $.ajax({
+                    url: 'html/claim-home-btn.html',
+                    success: function(res){
+                        zest.splice(0,0,res);
+                        var append = false;
+                        for (var i=0; i<zest.length; i++) {
+                            if (i>0) append = true;
+                            pad.routes.showResults(zest[i],append);
+                        }
                     }
-                }
+                });
             });
         });
+    };
+    me.getHomeInfo = function(){
+        var me=this,
+            props = pad.helper.getInput('#home-info'),
+            address = props.address;
+        me.listHomeInfo(address, props.zip);
     };
     return me;
     //changing
