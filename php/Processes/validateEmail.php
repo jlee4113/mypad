@@ -39,7 +39,7 @@ if (empty(json_decode($response, true))) {
 } else {
   $return->returnCode = '2';
   $return->messages = add_to_array("message","Email exists",$return->messages);
-  $return->data = json_decode($response);
+  $return->data = $response;
 }
 echo json_encode($return);
 

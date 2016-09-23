@@ -232,7 +232,7 @@ function select_from_table($table = '', $fields, $params = array()) {
     while($row = mysqli_fetch_assoc($response)){
       $temparray[] = $row;
     }
-    $response = json_encode($temparray);
+//    $response = json_encode($temparray);
     return $response;
   }
   else {
