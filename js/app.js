@@ -1,5 +1,8 @@
 requirejs.config({
     baseUrl: 'js',
+    shim : {
+        "bootstrap" : { "deps" :['jquery'] }
+    },
     paths: {
         jquery: 'lib/jquery.min',
         jqueryui: 'lib/jquery-ui.min',

@@ -24,7 +24,6 @@ if (!isset($password)) {
 if (!isset($id) and isset($email)) {
   $params = add_where('primEmail', $email, $params = array());
   $response = select_from_table('users', 'idPerson', $params);
-  $response = json_decode($response, true);
   if (!empty($response)) {
     $id = $response[0]['idPerson'];
   //  echo 'ID:'.$id; 
@@ -46,7 +45,6 @@ if (!isset($id)) {
 //Get current password
 $params = add_where('idPerson', $id, $params = array());
 $response = select_from_table('password', 'password', $params);
-$response = json_decode($response, true);
 if (!empty($response)) {
   $oldPassword = $response[0]['password'];
   //    echo 'Old Password:'.$oldPassword;

@@ -73,7 +73,7 @@ if (empty($response)) {
     array_push($records, $record);
     insert_into_table('password', $records);
     $return->returnCode = '3';
-    $return->messages = add_to_array("message","User created and password set",$return->messages);
+        $return->messages = add_to_array("message","User created and password set",$return->messages);
   } else {
     //Modify
     $update  = array();

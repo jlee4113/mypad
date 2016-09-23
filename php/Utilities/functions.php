@@ -66,7 +66,7 @@ function validatePassword($encOldPassword, $newPassword, $id) {
     $query = "UPDATE password SET misses = misses + 1 WHERE idPerson = $id";
     //echo $query;
     if ($con->query($query) === TRUE) {
-      echo json_encode("Added failed attempt count");
+      //echo json_encode("Added failed attempt count");
     } 
     else {
       echo "Error: " . $query . "<br>" . $con->error;
@@ -206,12 +206,14 @@ function general_query($query) {
 
 function select_from_table($table = '', $fields, $params = array(), $debug) {
   include('../utilities/connect.php');
+  /*$query = 'SELECT * FROM users WHERE primEmail="jlee@dassian.com"';
+  $response = @mysqli_query($con, $query);
+  echo json_encode($response->num_rows);*/
 // build list of fields into a string
   unset($field_list);
   if ($fields == "all") {
     $field_list = '*';
-  }
-  else {
+  } else {
 //    echo json_encode($fields);
     $field_list = $fields;
   }
@@ -229,19 +231,16 @@ function select_from_table($table = '', $fields, $params = array(), $debug) {
   }
   $response = @mysqli_query($con, $query);
   if ($debug == 'true') {
-    echo json_encode($response);
+    echo $response->num_rows;
   }
-//Convert to JSON
   $temparray = array();
-  //echo json_encode($response). "<br>";
-  //echo $query. "<br>";
+
   if($response){
     while($row = mysqli_fetch_assoc($response)){
       $temparray[] = $row;
     }
-    return array_filter($response);
-  }
-  else {
+    return array_filter($temparray);
+  } else {
 //Failed
     echo json_encode("Could not issue database query");
     echo mysqli_error($con);

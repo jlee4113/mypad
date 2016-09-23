@@ -9,7 +9,9 @@ define(['pad','userStore'],function(pad,userStore){
     };
     me.cached = false;
     me.updateNav = function() {
-        pad.helper.addHtml('#nav-menu-right','nav-account');
+        if (!$('#user-dropdown').length) {
+            pad.helper.addHtml('#nav-menu-right','nav-account');
+        }
     };
     me.validate = function(props,type){
         var req = me.required;
@@ -110,15 +112,18 @@ define(['pad','userStore'],function(pad,userStore){
                         }
                         if (res.returnCode == '2' || res.returnCode === 2) {
                             ls.setItem('userId',res.data[0].idPerson);
+                            ls.setItem('email',res.data[0].primEmail);
                             userStore.process(res);
-                            helper.updateActivity();
+                            pad.helper.updateActivity();
+                            location.reload();
                         }
                     });
                     ls.setItem('email',props.primEmail);
                     me.updateNav();
-                }
-                if (res.returnCode !== 1) {
-                    console.log('nope');
+                } else {
+                    if (Number(res.returnCode) ===2) {
+                        alert('Incorrect Password');
+                    }
                 }
             },
             failure: function (res) {
@@ -126,6 +131,12 @@ define(['pad','userStore'],function(pad,userStore){
             }
         };
         $.ajax(loginReq);
+    };
+    me.signOut = function(){
+        var ls = localStorage;
+        ls.removeItem('email');
+        ls.removeItem('lastActivity');
+        location.reload();
     };
     me.register = function(){
         var ls = localStorage;
@@ -184,8 +195,10 @@ define(['pad','userStore'],function(pad,userStore){
         $('.cache').click(function(e){
             me.cached = e.target.value()
         });
+        $('#sign-out-nav').unbind('click').click(function(e){
+            me.signOut();
+        });
         me.updateNav();
-
     };
     return me;
 });
