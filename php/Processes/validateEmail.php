@@ -36,6 +36,7 @@ $response = select_from_table($table, $fields, $where);
 if (empty(json_decode($response, true))) {
   $return->returnCode = '1';
   $return->messages = add_to_array("message","Email does not exist",$return->messages);
+  $return->data = add_to_array("email",$email,$return->data);
 } else {
   $return->returnCode = '2';
   $return->messages = add_to_array("message","Email exists",$return->messages);
