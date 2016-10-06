@@ -237,7 +237,7 @@ function select_from_table($table = '', $fields, $params = array(), $debug) {
       $temparray[] = $row;
     }
 //  $response = json_encode($temparray);
-    return $response;
+    return array_filter($response);
   }
   else {
 //Failed
@@ -270,6 +270,7 @@ function insert_into_table($table, $records = array()) {
     $insert = "INSERT INTO $table ($fields) VALUES ($values)";
     //echo $insert;
     if ($con->query($insert) === TRUE) {
+      echo "new ID=".$con->insert_id;
       echo json_encode("New record created successfully");
     } 
     else {
