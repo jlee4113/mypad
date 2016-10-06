@@ -23,8 +23,6 @@ if (!isset($id) and isset($email)) {
   //echo $email;
   $params = add_where('primEmail', $email, $params = array());
   $response = select_from_table('users', 'idPerson', $params);
-  //echo $response;
-  $response = json_decode($response, true);
   if (!empty($response)) {
     $id = $response[0]['idPerson'];
   }

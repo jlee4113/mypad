@@ -33,7 +33,7 @@ $fields = "*";
 $response = select_from_table($table, $fields, $where);
 
 // Then add the user to the person table with only the e-mail address
-if (empty(json_decode($response, true))) {
+if (empty($response)) {
   $return->returnCode = '1';
   $return->messages = add_to_array("message","Email does not exist",$return->messages);
   $return->data = add_to_array("email",$email,$return->data);

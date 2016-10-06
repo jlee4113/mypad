@@ -6,11 +6,9 @@ define(['pad'],function(pad){
             url: 'http://ziptasticapi.com/'+zip,
             method: 'GET',
             success: function(res){
-                res = JSON.parse(res);
-                var state = res.state,
-                    city = res.city;
-                if (callback) callback(city,state);
+                if (callback) callback(res);
             }
         });
     }
+    return me;
 });

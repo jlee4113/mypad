@@ -66,7 +66,7 @@ function validatePassword($encOldPassword, $newPassword, $id) {
     $query = "UPDATE password SET misses = misses + 1 WHERE idPerson = $id";
     //echo $query;
     if ($con->query($query) === TRUE) {
-      echo json_encode("Added failed attempt count");
+      //echo json_encode("Added failed attempt count");
     } 
     else {
       echo "Error: " . $query . "<br>" . $con->error;
@@ -206,12 +206,14 @@ function general_query($query) {
 
 function select_from_table($table = '', $fields, $params = array(), $debug) {
   include('../utilities/connect.php');
+  /*$query = 'SELECT * FROM users WHERE primEmail="jlee@dassian.com"';
+  $response = @mysqli_query($con, $query);
+  echo json_encode($response->num_rows);*/
 // build list of fields into a string
   unset($field_list);
   if ($fields == "all") {
     $field_list = '*';
-  }
-  else {
+  } else {
 //    echo json_encode($fields);
     $field_list = $fields;
   }
@@ -228,10 +230,11 @@ function select_from_table($table = '', $fields, $params = array(), $debug) {
     echo $query;
   }
   $response = @mysqli_query($con, $query);
-//Convert to JSON
+  if ($debug == 'true') {
+    echo $response->num_rows;
+  }
   $temparray = array();
-  //echo json_encode($response). "<br>";
-  //echo $query. "<br>";
+
   if($response){
     while($row = mysqli_fetch_assoc($response)){
       $temparray[] = $row;
@@ -270,8 +273,7 @@ function insert_into_table($table, $records = array()) {
     $insert = "INSERT INTO $table ($fields) VALUES ($values)";
     //echo $insert;
     if ($con->query($insert) === TRUE) {
-      echo "new ID=".$con->insert_id;
-      echo json_encode("New record created successfully");
+      return $con->insert_id;
     } 
     else {
       echo json_encode("Error: " . $insert . "<br>" . $con->error);

@@ -2,7 +2,6 @@
 require_once('../utilities/functions.php');
 require_once('../utilities/creds.php');
 define('REQUIRED_FILE','../Vendor/aws/aws-autoloader.php');
-
 $email     = get_variable('sendTo', $_POST);
 $content   = get_variable('emailContent',$_POST);
 $title     = get_variable('emailTitle',$_POST);
@@ -13,7 +12,6 @@ define('REGION','us-west-2');
 
 define('SUBJECT','Password Update');
 define('BODY',$content);
-
 require REQUIRED_FILE;
 
 use Aws\Ses\SesClient;

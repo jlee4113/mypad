@@ -72,14 +72,7 @@ $record  = add_field("idPerson", $idPerson, $record);
 $record  = add_field("idListing", $idListing, $record);
 array_push($records, $record);
 //Home ID to update
-insert_into_table($table, $records);
-
-//Get the Bounty ID and send back
-unset($where);
-$where = add_where("idPerson", $idPerson, $where);
-$where = add_where("idListing", $idListing, $where);
-$fields = "idBounty";
-$response = select_from_table($table, $fields, $where);
+$response = insert_into_table($table, $records);
 $return->data = add_to_array("idBounty",$response,$return->data);
 
 //Set success return code

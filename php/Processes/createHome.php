@@ -34,6 +34,7 @@ if (empty($zip)) {
   $return = add_message("returnCode", "8", $return);
   $return = add_message("message", "Zip Code is not set", $return);
 }
+
 if ($return->returnCode == '8') {
   echo json_encode($return);
   exit; 
@@ -61,7 +62,7 @@ unset($emptyTestArray);
 $where = add_where("idHome", $idHome, $where);
 $fields = "idHome";
 $response = select_from_table($table, $fields, $where);
-$EmptyTestArray = array_filter($response);
+$EmptyTestArray = $response;
 if (empty($EmptyTestArray)) {
   $return = add_message("returnCode", "8", $return);
   $return = add_message("message", "Invalid Home ID $idHome", $return);
@@ -77,15 +78,7 @@ $record  = add_field("idPerson", $idPerson, $record);
 $record  = add_field("pic", $pic, $record);
 array_push($records, $record);
 //Home ID to update
-insert_into_table($table, $records);
-
-//Get the Home ID and send back
-unset($where);
-$where = add_where("address", $address, $where);
-$where = add_where("address1", $address1, $where);
-$where = add_where("zip", $zip, $where);
-$fields = "idHome";
-$response = select_from_table($table, $fields, $where);
+$response = insert_into_table($table, $records);
 $return->data = add_to_array("idHome",$response,$return->data);
 
 //Set success return code

@@ -44,10 +44,51 @@ if (empty($response)) {
   array_push($records, $record);
   //echo "Start Insert Table.".json_encode($table). "\n";
   //echo "Start Insert Fields.".json_encode($records). "\n";
-  insert_into_table($table, $records);
-//  echo "started";
-  $last_id = mysql_insert_id();
-  echo "Last ID:".$last_id;
-  exit;
+
+  $id = insert_into_table($table, $records);
+
+//If ID is not set, then exit with message
+  if (!isset($id)) {
+      $return->returnCode = '8';
+      $return->messages = add_to_array("message","Email $email was not saved.  Contact System Administrator",$return->messages);
+      echo json_encode($return);
+      exit;
+  }  
+  // Now add the password to the password table with unique ID assigned
+  // Hash the password provided
+  $hash = encryptPassword($password);
+//If already exists, then update password and if not insert record
+  $params = array();
+  $response = null;
+  $params = add_where('idPerson', $id, $params);
+  $response = select_from_table('password', 'idPerson', $params);
+  if (empty(json_decode($response, true))) {
+    //Insert
+    $record = array();
+    $records = array();
+    $record = add_field('idPerson', $id, $record);
+    $record = add_field('password', $hash, $record);
+    $record = add_field('misses', "0", $record);
+    $record = add_field('locked', "0", $record);
+    array_push($records, $record);
+    $id = insert_into_table('password', $records);
+    $return->returnCode = '3';
+        $return->messages = add_to_array("message","User created and password set",$return->messages);
+  } else {
+    //Modify
+    $update  = array();
+    $where   = array();
+    $update  = add_field("password", $hash, $update);
+    $update  = add_field("misses", "0", $update);
+    $update  = add_field("locked", "0", $update);
+    $where   = add_where("idPerson", $id, $where);
+    modify_record('password', $update, $where);
+    $return->returnCode = '3';
+    $return->messages = add_to_array("message","User created and password set",$return->messages);
+  }
+}
+else {    //only update password
+  $return->returnCode = '2';
+  $return->messages = add_to_array("Email already exists. Cannot create.",$return->messages);
 }
 ?>

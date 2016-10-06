@@ -1,4 +1,4 @@
-define(['jquery'],function($){
+define(['jquery','bootstrap'],function($,bs){
     pad = {};
     var ls = localStorage;
     pad.users = {
@@ -60,6 +60,7 @@ define(['jquery'],function($){
             return decodeURIComponent(results[2].replace(/\+/g, " "));
         },
         loggedIn: function() {
+            if (!ls.getItem('email')) return false;
             var now = Date.now(),
                 last = ls.getItem('lastActivity');
             if (!last) return false;
@@ -68,7 +69,11 @@ define(['jquery'],function($){
             else return true;
         },
         updateActivity: function(){
-            ls.setItem('lastActivity',Date.now());
+            if (ls.getItem('lastActivity')) {
+                ls.setItem('lastActivity',Date.now());
+            } else {
+                ls.setItem('lastActivity',Date.now());
+            }
         },
         convertDate: function(val, format){
             //assumes YYYYMMDD
