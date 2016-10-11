@@ -55,6 +55,11 @@ if ($return->returnCode == '8') {
 //Add record
 $table = 'listings';
 
+// change boolians
+$buyersAgent = from_boolian($buyersAgent);
+$bounty      = from_boolian($bounty);
+$mls         = from_boolian($mls);
+
 // Parameters to update
 $record  = add_field("idPerson", $idHome, $record);
 $record  = add_field("status", $status, $record);
