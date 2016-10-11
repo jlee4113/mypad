@@ -1,7 +1,8 @@
 requirejs.config({
     baseUrl: 'js',
     shim : {
-        "bootstrap" : { "deps" :['jquery'] }
+        "bootstrap" : { "deps" :['jquery'] },
+        "maps": {"deps" : ['googleMaps']}
     },
     paths: {
         jquery: 'lib/jquery.min',
@@ -9,7 +10,7 @@ requirejs.config({
         tether: 'lib/tether.min',
         bootstrap: 'lib/bootstrap.min',
         zillow: 'api/zillow',
-        google: 'api/google',
+        maps: 'api/google',
         redfin: 'api/redfin',
         trulia: 'api/trulia',
         zip: 'api/zip',
@@ -21,7 +22,8 @@ requirejs.config({
         register: 'src/users/register',
         homes: 'src/stores/homes',
         proxies: 'src/stores/proxies',
-        userStore: 'src/stores/users'
+        userStore: 'src/stores/users',
+        googleMaps: 'http://maps.googleapis.com/maps/api/js?libraries=places&key=AIzaSyAk0Af-IvqZfHuvOTyIHRq0UeNSJbRb7MY'
     }
 });
 require(['pad'],function(pad){

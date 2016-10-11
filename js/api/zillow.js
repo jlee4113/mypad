@@ -1,6 +1,5 @@
 define(['pad'],function(pad){
-    var z = pad.api.zillow;
-    if (!z) z={}; pad.api.zilllow = z;
+    var z = this;
     z.zId = 'X1-ZWz1ffgp8hx7gr_adn99';
     z.getBaseUrl = function(){
         var pathArray = location.href.split( '/' ),
@@ -19,12 +18,10 @@ define(['pad'],function(pad){
             url: z.deepSearch,
             data: params,
             success: function(res){
-                console.log(res);
                 if(callback)callback(res);
             },
             failure: function(res){
                 if(callback)callback(res);
-                console.log(res);
             }
         };
         $.ajax(ajax);

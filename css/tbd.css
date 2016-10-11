@@ -1,0 +1,58 @@
+@charset "UTF-8";
+/* CSS Document */
+
+
+@font-face{font-family:PostGrotesk;src:url(//static.trulia-cdn.com/images/fonts/PostGroteskBook_20150623/PostGrotesk-Book.eot);src:url(//static.trulia-cdn.com/images/fonts/PostGroteskBook_20150623/PostGrotesk-Book.eot?#iefix) format("embedded-opentype"),url(//static.trulia-cdn.com/images/fonts/PostGroteskBook_20150623/PostGrotesk-Book.woff) format("woff"),url(//static.trulia-cdn.com/images/fonts/PostGroteskBook_20150623/PostGrotesk-Book.ttf) format("truetype"),url(//static.trulia-cdn.com/images/fonts/PostGroteskBook_20150623/PostGrotesk-Book.svg#PostGroteskRegular) format("svg");font-weight:400;font-style:normal}
+
+.price{
+    font-variant:small-caps;
+    font-size:28px;
+    font-family:PostGrotesk,OpenSans,sans-serif;
+    vertical-align:bottom;
+}
+
+.navbar-tbd{
+    background: #00C7C9;
+    background-color:#00C7C9;
+    color:EEE;
+}
+.navbar-nav > li > .dropdown-menu { background-color: #00C7C9; }
+
+.navbar-nav > li > a:hover, .navbar-nav > li > a:focus {
+    background-color: #11D8D0;
+    /*background-color: #009596;*/
+}
+.navbar-search{
+    padding-right:10px;
+}
+.navbar-tbd a:link{
+    color:#FFFFFF;
+}
+
+.navbar-tbd a:visited{
+    color:#FFFFFF;
+}
+.navbar-tbd a:hover{
+    color:#FFFFFF;
+    text-decoration:underline;
+    background-color:#00C7C9;
+}
+.navbar-tbd a:active{
+    color:#FFFFFF;
+}
+
+
+.sevenSteps{
+    font-variant:small-caps;
+    font-size:18px;
+    font-family:PostGrotesk,OpenSans,sans-serif;
+}
+
+
+body  {
+    background: #f5f5f5;
+    background-color:#fbfbfb;
+    padding-top: 50px;
+    padding-bottom: 20px;
+    font-family:PostGrotesk,OpenSans,sans-serif;
+}

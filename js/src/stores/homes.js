@@ -24,7 +24,7 @@ define(['pad','proxies'],function(pad,proxies){
     ];
     me.process = function(xml) {
         me.data = me.proxy(xml,me.record);
-
+        return me.data;
     };
     me.getRecByIndex = function(index) {
         return me.data[index];

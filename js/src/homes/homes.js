@@ -1,4 +1,4 @@
-define(['pad','zillow','google','homes','zip'],function(pad,z,g,homes,zip){
+define(['pad','zillow','maps','homes','zip'],function(pad,z,maps,homes,zip){
     var me = pad.home;
     if (!me) me = {}; pad.home = me;
     var ls = localStorage;
@@ -10,7 +10,7 @@ define(['pad','zillow','google','homes','zip'],function(pad,z,g,homes,zip){
     me.claimHome = function() {
         var home = me.currentHome,
             address = home.address,
-            zip = home.zip;
+            zip = home.zip;x
         $.ajax({
             url: '../php/Processes/createHome.php',
             data: {
@@ -26,6 +26,9 @@ define(['pad','zillow','google','homes','zip'],function(pad,z,g,homes,zip){
                 console.log('error');
             }
         });
+    };
+    me.autoComplete = function(div) {
+        maps.autoComplete(div);
     };
     me.createDivs = function(data) {
         var returnVal,array=[],
@@ -64,7 +67,19 @@ define(['pad','zillow','google','homes','zip'],function(pad,z,g,homes,zip){
             if (callback) callback(cityState);
         });
     };
+    me.updateHomeInfo = function(address) {
+        z.getInfo(address[0],address[1],function(res){
+            console.log(res);
+            require(['homes'],function(homes){
+                res = homes.process(res);
+                pad.currentHome.info = res[0];
+            });
+        });
+    };
     me.listHomeInfo = function(address, zip){
+        if (!zip) {
+
+        }
         me.currentHome = {
             address: address,
             zip: zip

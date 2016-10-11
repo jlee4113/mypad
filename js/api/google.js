@@ -1,6 +1,7 @@
 define(['pad'],function(pad){
-    var g = pad.api.google;
-    if (!g) g={}; pad.api.google = g;
-    //add api functions here
+    var g = this;
+    g.autoComplete = function(div,handler) {
+         return new google.maps.places.Autocomplete(div);
+    }
     return g;
 });
