@@ -9,30 +9,13 @@ $record  = array();
 $records = array();
 
 //these are the input parameters needed
-$idPerson      = get_variable('idPerson', $_POST);
-$status        = get_variable('status', $_POST);
-$address       = get_variable('address', $_POST);
-$zip           = get_variable('zip', $_POST);
-$bedrooms      = get_variable('bedrooms', $_POST);
-$bathrooms     = get_variable('bathrooms', $_POST);
-$totalRooms    = get_variable('totalRooms', $_POST);
-$finishedSqFt  = get_variable('finishedSqFt', $_POST);
-$lotSizeSqFt   = get_variable('lotSizeSqFt', $_POST);
-$askingPrice   = get_variable('askingPrice', $_POST);
-$minimum       = get_variable('minimum', $_POST);
-$mls           = get_variable('mls', $_POST);
-$buyersAgent   = get_variable('buyersAgent', $_POST);
-$bounty        = get_variable('bounty', $_POST);
-$bountyAmount  = get_variable('bountyAmount', $_POST);
-$bountyPercent = get_variable('bountyPercent', $_POST);
-$contingency   = get_variable('contingency', $_POST);
-$disclosures   = get_variable('disclosures', $_POST);
-$description   = get_variable('description', $_POST);
+$idListing      = get_variable('idListing', $_POST);
+
 
 //Make sure the Person ID is set
-if (empty($idPerson)) {
+if (empty($idListing)) {
   $return->returnCode = '8';
-  $return->messages = add_to_array("message","ID for Person is Empty",$return->messages);    
+  $return->messages = add_to_array("message","ID for Listing is Empty",$return->messages);    
 }
 
 if (!$return->returnCode == '8') {
