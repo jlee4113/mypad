@@ -9,7 +9,7 @@ $record  = array();
 $records = array();
 
 //these are the input parameters needed
-$idPerson      = get_variable('idHome', $_POST);
+$idPerson      = get_variable('idPerson', $_POST);
 $status        = get_variable('status', $_POST);
 $address       = get_variable('address', $_POST);
 $zip           = get_variable('zip', $_POST);

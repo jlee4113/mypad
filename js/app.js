@@ -17,6 +17,7 @@ requirejs.config({
         mls: 'api/mls.js',
         pad: 'src/pad',
         home: 'src/homes/homes',
+        listings: 'src/listings/listings',
         users: 'src/users/users',
         login: 'src/users/login',
         register: 'src/users/register',
