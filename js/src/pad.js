@@ -163,7 +163,7 @@ define(['jquery','bootstrap','maps'],function($,bs,maps){
             if (path.substr(path.length-5) !== '.html') {
                 path = 'html/'+path+'.html';
             } else {
-                path = 'html/'+path;
+                path = 'html/external/'+path;
             }
             $('#widget').load(path);
             $('#results').html('');
@@ -191,8 +191,8 @@ define(['jquery','bootstrap','maps'],function($,bs,maps){
                                     address = place.formatted_address;
                                 pad.currentHome.address = address;
                                 address = address.split(',');
-                                require(['home'],function(home){
-                                    home.updateHomeInfo(address);
+                                require(['listings'],function(listings){
+                                    listings.updateHomeInfo(address);
                                 });
                             });
                         }
