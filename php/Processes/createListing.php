@@ -29,29 +29,41 @@ $contingency   = get_variable('contingency', $_POST);
 $disclosures   = get_variable('disclosures', $_POST);
 $description   = get_variable('description', $_POST);
 
-//Make sure the Person ID is set
-if (empty($idPerson)) {
+
+//Make sure the Address is set
+if (empty($address)) {
   $return->returnCode = '8';
-  $return->messages = add_to_array("message","ID for Person is Empty",$return->messages);    
-}
-
-if (!$return->returnCode == '8') {
-//Make sure idPerson is valid	
-  $table = 'users';
-  unset($where);
-  $where = add_where("idPerson", $idHome, $where);
-  $fields = "idPerson";
-  $response = select_from_table($table, $fields, $where);
-  if (empty($response)) {
-    $return->returnCode = '8';
-    $return->messages = add_to_array("message","Invalid idPerson $idPerson",$return->messages); 
-  }
-}
-
-if ($return->returnCode == '8') {
+  $return->messages = add_to_array("message","Address is Empty",$return->messages); 
   echo json_encode($return);
-  exit; 
+  exit;    
 }
+
+
+//Make sure the Person ID is set
+//if (empty($idPerson)) {
+//  $return->returnCode = '8';
+//  $return->messages = add_to_array("message","ID for Person is Empty",$return->messages);    
+//}
+
+//if (!$return->returnCode == '8') {
+//Make sure idPerson is valid	
+//  $table = 'users';
+//  unset($where);
+//  $where = add_where("idPerson", $idHome, $where);
+//  $fields = "idPerson";
+//  $response = select_from_table($table, $fields, $where);
+//  if (empty($response)) {
+//    $return->returnCode = '8';
+//    $return->messages = add_to_array("message","Invalid idPerson $idPerson",$return->messages); 
+//    echo json_encode($return);
+//    exit; 
+//  }
+//}
+
+//if ($return->returnCode == '8') {
+//  echo json_encode($return);
+//  exit; 
+//}
 
 //Add record
 $table = 'listings';

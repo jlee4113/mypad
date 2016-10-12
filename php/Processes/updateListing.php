@@ -11,6 +11,7 @@ $update  = array();
 
 //these are the input parameters needed
 $idListing     = get_variable('idListing', $_POST);
+$idPerson      = get_variable('idPerson', $_POST);
 $status        = get_variable('status', $_POST);
 $address       = get_variable('address', $_POST);
 $zip           = get_variable('zip', $_POST);
@@ -57,6 +58,9 @@ if ($return->returnCode == '8') {
 
 
 $where = add_where("idListing", $idListing, $where);
+if (isNotEmpty($idPerson)) {
+  $update  = add_field("idPerson", $idPerson, $update); 
+}
 if (isNotEmpty($status)) {
   $update  = add_field("status", $status, $update); 
 }
