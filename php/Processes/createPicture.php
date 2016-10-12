@@ -10,6 +10,7 @@ $records = array();
 
 //these are the input parameters needed
 $idListing      = get_variable('idListing', $_POST);
+$link           = get_variable('link', $_POST);
 
 
 //Make sure the Person ID is set
@@ -18,59 +19,38 @@ if (empty($idListing)) {
   $return->messages = add_to_array("message","ID for Listing is Empty",$return->messages);    
 }
 
+//Validate the listing exists
 if (!$return->returnCode == '8') {
 //Make sure idPerson is valid	
-  $table = 'users';
+  $table = 'listings';
   unset($where);
-  $where = add_where("idPerson", $idHome, $where);
-  $fields = "idPerson";
+  $where = add_where("idListing", $idListing, $where);
+  $fields = "idListing";
   $response = select_from_table($table, $fields, $where);
   if (empty($response)) {
     $return->returnCode = '8';
-    $return->messages = add_to_array("message","Invalid idPerson $idPerson",$return->messages); 
+    $return->messages = add_to_array("message","Invalid idListing $idListing",$return->messages); 
   }
-
+}
 if ($return->returnCode == '8') {
   echo json_encode($return);
   exit; 
 }
 
 //Add record
-$table = 'listings';
-
-// change boolians
-$buyersAgent = from_boolian($buyersAgent);
-$bounty      = from_boolian($bounty);
-$mls         = from_boolian($mls);
+$table = 'pictures';
 
 // Parameters to update
-$record  = add_field("idPerson", $idHome, $record);
-$record  = add_field("status", $status, $record);
-$record  = add_field("address", $address, $record);
-$record  = add_field("zip", $zip, $record);
-$record  = add_field("bedrooms", $bedrooms, $record);
-$record  = add_field("bathrooms", $bathrooms, $record);
-$record  = add_field("totalRooms", $totalRooms, $record);
-$record  = add_field("finishedSqFt", $finishedSqFt, $record);
-$record  = add_field("lotSizeSqFt", $lotSizeSqFt, $record);
-$record  = add_field("askingPrice", $askingPrice, $record);
-$record  = add_field("minimum", $minimum, $record);
-$record  = add_field("mls", $mls, $record);
-$record  = add_field("buyersAgent", $buyersAgent, $record);
-$record  = add_field("bounty", $bounty, $record);
-$record  = add_field("bountyAmount", $bountyAmount, $record);
-$record  = add_field("bountyPercent", $bountyPercent, $record);
-$record  = add_field("contingency", $contingency, $record);
-$record  = add_field("disclosures", $disclosures, $record);
-$record  = add_field("description", $description, $record);
+$record  = add_field("idListing", $idListing, $record);
+$record  = add_field("link", $link, $record);
 array_push($records, $record);
-//Home ID to update
+//Picture ID to update
 $response = insert_into_table($table, $records);
-$return->data = add_to_array("idListing",$response,$return->data);
+$return->data = add_to_array("idPicture",$response,$return->data);
 
 //Set success return code
 $return = add_message("returnCode", "0", $return);
-$return = add_message("message", "Listing successfully created", $return);
+$return = add_message("message", "Picture Link successfully created", $return);
 
 echo json_encode($return);
 ?>
