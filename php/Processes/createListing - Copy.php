@@ -1,4 +1,5 @@
 <?php
+echo 'this is a test';
 require_once('../utilities/functions.php');
 include('../utilities/globals.php');
 header('Access-Control-Allow-Origin: *');
@@ -46,7 +47,6 @@ if (!$return->returnCode == '8') {
     $return->returnCode = '8';
     $return->messages = add_to_array("message","Invalid idPerson $idPerson",$return->messages); 
   }
-}
 
 if ($return->returnCode == '8') {
   echo json_encode($return);
