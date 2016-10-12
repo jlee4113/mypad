@@ -21,13 +21,10 @@ if (empty($idBounty && empty($idListing) && empty($idPerson))) {
   exit;    
 }
 
-
-
-
 //Delete record
 $table = 'bounty';
 if (!empty($idBounty)) {
-  $where = add_where("idHome", $idBounty, $where);
+  $where = add_where("idBounty", $idBounty, $where);
 }
 else {
   if (!empty($idListing)) {

@@ -46,6 +46,7 @@ if (empty($response)) {
   //echo "Start Insert Fields.".json_encode($records). "\n";
 
   $id = insert_into_table($table, $records);
+  $return->data = add_to_array("idperson",$id,$return->data);
 
 //If ID is not set, then exit with message
   if (!isset($id)) {

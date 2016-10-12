@@ -18,6 +18,10 @@ if (empty($idListing)) {
   $return->returnCode = '8';
   $return->messages = add_to_array("message","ID for Listing is Empty",$return->messages);    
 }
+if (empty($link)) {
+  $return->returnCode = '8';
+  $return->messages = add_to_array("message","Picture Link is Empty",$return->messages);    
+}
 
 //Validate the listing exists
 if (!$return->returnCode == '8') {

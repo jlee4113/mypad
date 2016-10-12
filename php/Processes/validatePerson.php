@@ -28,7 +28,7 @@ if (empty($id)) {
 //Check if exists
 $table = 'users';
 $where = add_where("idPerson", $id, $where = array());
-$fields = "idPerson";
+$fields = "*";
 $response = select_from_table($table, $fields, $where);
 
 // Then add the user to the person table with only the e-mail address
@@ -39,6 +39,7 @@ if (empty($response)) {
 } else {
   $return->returnCode = '2';
   $return->messages = add_to_array("message","Email Validated",$return->messages);
+  $return->data = $response;
   $param  = add_field("idPerson", $id, $param);
   $record = add_field('verified', 'X', $record);
   array_push($records, $record);

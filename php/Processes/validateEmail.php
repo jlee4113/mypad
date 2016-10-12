@@ -32,7 +32,7 @@ $where = add_where("primEmail", $email, $where = array());
 $fields = "*";
 $response = select_from_table($table, $fields, $where);
 
-// Then add the user to the person table with only the e-mail address
+// Failed, so send message email does not exist
 if (empty($response)) {
   $return->returnCode = '1';
   $return->messages = add_to_array("message","Email does not exist",$return->messages);

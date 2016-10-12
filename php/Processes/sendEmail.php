@@ -6,6 +6,20 @@ $email     = get_variable('sendTo', $_POST);
 $content   = get_variable('emailContent',$_POST);
 $title     = get_variable('emailTitle',$_POST);
 
+//Validations
+if(empty($email)) {
+  $return->returnCode = '8';
+  $return->messages = add_to_array("message","Email address is Empty",$return->messages);  
+  echo json_encode($return);
+  exit; 
+}
+if(empty($title)) {
+  $return->returnCode = '8';
+  $return->messages = add_to_array("message","Title of Email is Empty",$return->messages);  
+  echo json_encode($return);
+  exit; 
+}
+
 define('SENDER', 'ninjas@mypadaz.com');
 define('RECIPIENT', $email);
 define('REGION','us-west-2');
@@ -30,11 +44,13 @@ $request['Message']['Body']['Text']['Data'] = BODY;
 try {
      $result = $client->sendEmail($request);
      $messageId = $result->get('MessageId');
-     echo("Email sent! Message ID: $messageId"."\n");
+     $return->returnCode = '0';
+     $return->messages = add_to_array("message","Email sent! Message ID: $messageId",$return->messages);  
 
 } catch (Exception $e) {
-     echo("The email was not sent. Error message: ");
-     echo($e->getMessage()."\n");
+     $return->returnCode = '8';
+     $return->messages = add_to_array("message","The email was not sent. Error message: ",$return->messages); 
+     $message = $e->getMessage();
+     $return->messages = add_to_array("message",$message,$return->messages); 
 }
-
 ?>

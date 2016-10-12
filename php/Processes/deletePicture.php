@@ -25,9 +25,11 @@ $table = 'pictures';
 if (!empty($idPicture)) {
   $where = add_where("idPicture", $idPicture, $where);
 }
-if (!empty($idListing)) {
-  $where = add_where("idListing", $idListing, $where);
-}	
+else {
+  if (!empty($idListing)) {
+    $where = add_where("idListing", $idListing, $where);
+  }	
+}
 
 //Delete Record
 delete_from_table($table, $where);
