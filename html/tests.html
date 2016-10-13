@@ -1,0 +1,34 @@
+ <div class="container">
+     <div class="row">
+         <div class="col-md-6 btn-toolbar">
+             <button id="submit-params" class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">
+                 Submit
+             </button>
+             <button type="button" class="btn btn-primary add-proc">Add</button>
+             <button id="test-account-btn" class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">
+                 <span id="proc">Test Proc</span>
+                 <span class="caret"></span>
+             </button>
+             <ul id="proc-dropdown" class="dropdown-menu"></ul>
+         </div>
+     </div>
+ </div>
+ <div class="container" id="params">
+     <div class="row" id="param">
+         <div class="col-md-6"><input type="text" class="form-control param" placeholder="param"></div>
+         <div class="col-md-6"><input type="text" class="form-control  param-value" placeholder="param value"></div>
+     </div>
+ </div>
+<script>
+    require(['tests'],function(tests){
+        tests.loadProcs($('#proc-dropdown'));
+        if (!tests.num) tests.num=1;
+        else tests.num = test.num++;
+        $('.add-proc').click(function(e){
+            $('#params').append($('#param').clone().attr('id','param'+tests.num));
+        });
+        $('#submit-params').click(function(e){
+            tests.send();
+        });
+    });
+</script>

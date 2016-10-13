@@ -209,17 +209,16 @@ define(['jquery','bootstrap','maps'],function($,bs,maps){
                     }
                 }
             });
+            $(document).on('click','.proc',function(el){
+                $('#proc').html(el.target.innerHTML);
+                $('#proc').attr('value',el.target.innerHTML)
+                pad.tests.php = el.target.innerHTML;
+            });
             $(document).on('click','.nav',function(e){
                 if (pad.actions) {
                     pad.helper.handleActions(pad.actions);
                 }
                 var target = e.target.getAttribute('nav');
-                me.route(target);
-            });
-            $(document).on('click','.btn',function(e){
-                e.preventDefault();
-                var target = e.target.getAttribute('nav');
-                if (!target) target = e.target.getAttribute('href');
                 me.route(target);
             });
             $(document).on("click mousedown mouseup focus blur keydown change", function(){

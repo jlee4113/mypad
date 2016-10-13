@@ -348,4 +348,9 @@ function find_key_value($array, $key, $val) {
   }
   return false;
 }
+
+function list_proc_files(){
+    $directory = "../Processes/";
+    return scandir ($directory);
+}
 ?>

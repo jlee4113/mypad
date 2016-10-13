@@ -24,6 +24,7 @@ requirejs.config({
         homes: 'src/stores/homes',
         proxies: 'src/stores/proxies',
         userStore: 'src/stores/users',
+        tests: 'src/tests/tests',
         googleMaps: 'http://maps.googleapis.com/maps/api/js?libraries=places&key=AIzaSyAk0Af-IvqZfHuvOTyIHRq0UeNSJbRb7MY'
     }
 });
