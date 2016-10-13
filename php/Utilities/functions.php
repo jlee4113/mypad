@@ -293,12 +293,17 @@ function delete_from_table($table, $params = array()) {
     $delete = "DELETE FROM $table WHERE $where";
     //echo $delete;
     if ($con->query($delete) === TRUE) {
-      echo "Records Deleted";
+//      echo "Records Deleted";
+      return $con->affected_rows;
     } 
     else {
-      echo "Error: " . $delete . "<br>" . $con->error;
+      return '0';
+//      echo "Error: " . $delete . "<br>" . $con->error;
     }
   }
+  ELSE {
+    return '0';
+  }  
   $con->close();
 }
 

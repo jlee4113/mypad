@@ -9,14 +9,20 @@ $records = array();
 $where   = array();
 
 //these are the input parameters needed
+$idBounty  = get_variable('idBounty', $_GET);
 $idListing = get_variable('idListing', $_GET);
 $idPerson  = get_variable('idPerson', $_GET);
-$and       = " and ";
-if (!empty($idListing)) {
-  $where = add_where("idListing", $idListing, $where);
+
+if (!empty($idBounty)) {
+  $where = add_where("idBounty", $idBounty, $where);
 }
-if (!empty($idPerson)) {
-  $where = add_where("idPerson", $idPerson, $where);
+ELSE {
+  if (!empty($idListing)) {
+    $where = add_where("idListing", $idListing, $where);
+  }
+  if (!empty($idPerson)) {
+    $where = add_where("idPerson", $idPerson, $where);
+  }
 }
 
 //Make sure there is a selection criteria given
@@ -27,7 +33,7 @@ if (empty($where)) {
   exit; 
 }
 //Select data
-$table = 'listings';
+$table = 'bounty';
 $query = select_from_table($table, '*', $where);
 $return->data = $query;
 

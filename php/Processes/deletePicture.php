@@ -32,10 +32,16 @@ else {
 }
 
 //Delete Record
-delete_from_table($table, $where);
-
+$rows = delete_from_table($table, $where);
+$return->data = add_to_array("Deleted",$rows,$return->data);
 //Set success return code
-$return->returnCode = '0';
-$return->messages = add_to_array("message","Picture(s) successfully deleted",$return->messages);	
+IF ($rows >  '0') {
+  $return->returnCode = '0';
+  $return->messages = add_to_array("message","Picture(s) successfully deleted",$return->messages);
+}
+ELSE {
+  $return->returnCode = '8';
+  $return->messages = add_to_array("message","No Bounty found to delete in the selection criteria",$return->messages);  
+} 	
 echo json_encode($return);
 ?>

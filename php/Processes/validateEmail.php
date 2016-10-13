@@ -13,7 +13,7 @@ $return = new json();
 
 
 // Get Parameters
-$email     = get_variable('primEmail', $_POST);
+$email     = get_variable('primEmail', $_GET);
 
 //Make sure primary e-mail is set
 if (empty($email)) {

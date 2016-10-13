@@ -7,9 +7,9 @@ header('Access-Control-Allow-Origin: *');
 $return = new json();
 
 //get Parameters
-$id       = get_variable('idPerson', $_POST);
-$email    = get_variable('primEmail', $_POST);
-$password = get_variable('password', $_POST);
+$id       = get_variable('idPerson', $_GET);
+$email    = get_variable('primEmail', $_GET);
+$password = get_variable('password', $_GET);
 
 //If no password provided, then exit
 if (!isset($password)) {

@@ -15,7 +15,7 @@ $param    = array();
 $params   = array();
 
 // Get Parameters
-$id     = get_variable('idPerson', $_POST);
+$id     = get_variable('idPerson', $_GET);
 
 //Make sure primary e-mail is set
 if (empty($id)) {

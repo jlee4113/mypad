@@ -11,7 +11,7 @@ $update  = array();
 
 //these are the input parameters needed
 $idBounty  = get_variable('idBounty', $_POST);
-$idStatus  = get_variable('idStatus', $_POST);
+$status  = get_variable('status', $_POST);
 
 //Make sure one of the 3 variables are populated
 if (empty($idBounty)) {
@@ -24,7 +24,7 @@ if (empty($idBounty)) {
 $table = 'bounty';
 $where = add_where("idBounty", $idBounty, $where);
 $update  = add_field("status", $status, $update);
-modify_record('password', $update, $where);
+modify_record($table, $update, $where);
 $return->returnCode = '0';
 $return->messages = add_to_array("message","Successfuly Updated",$return->messages);
   
