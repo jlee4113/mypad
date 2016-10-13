@@ -10,17 +10,13 @@ $records = array();
 
 //these are the input parameters needed
 $idListing      = get_variable('idListing', $_POST);
-$link           = get_variable('link', $_POST);
+//$link           = get_variable('link', $_POST);
 
 
 //Make sure the Person ID is set
 if (empty($idListing)) {
   $return->returnCode = '8';
   $return->messages = add_to_array("message","ID for Listing is Empty",$return->messages);    
-}
-if (empty($link)) {
-  $return->returnCode = '8';
-  $return->messages = add_to_array("message","Picture Link is Empty",$return->messages);    
 }
 
 //Validate the listing exists
@@ -41,16 +37,23 @@ if ($return->returnCode == '8') {
   exit; 
 }
 
+//Add image to the file location
+$upload_image=$_FILES[" myimage "][ "name" ];
+$folder="/images/";
+move_uploaded_file($_FILES[" myimage "][" tmp_name "], "$folder".$_FILES[" myimage "][" name "]);
+
 //Add record
 $table = 'pictures';
 
 // Parameters to update
 $record  = add_field("idListing", $idListing, $record);
-$record  = add_field("link", $link, $record);
+$record  = add_field("folder", $folder, $record);
+$record  = add_field("link", $upload_image, $record);
 array_push($records, $record);
 //Picture ID to update
 $response = insert_into_table($table, $records);
 $return->data = add_to_array("idPicture",$response,$return->data);
+$return->data = add_to_array("link",$upload_image,$return->data);
 
 //Set success return code
 $return = add_message("returnCode", "0", $return);
