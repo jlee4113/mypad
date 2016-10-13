@@ -227,20 +227,22 @@ function select_from_table($table = '', $fields, $params = array(), $debug) {
     $query = "SELECT $field_list FROM $table";
   }
   if ($debug == 'true') {
-    echo $query;
+    echo "Query = $query";
+    echo "\n";
   }
   $response = @mysqli_query($con, $query);
   if ($debug == 'true') {
-    echo $response->num_rows;
+    echo "rows = $response->num_rows";
+ //   echo json_encode($response);
   }
   $temparray = array();
 
   if($response){
     while($row = mysqli_fetch_assoc($response)){
-      $temparray[] = $row;
+      $temporary[] = $row;
     }
 //  $response = json_encode($temparray);
-    return array_filter($response);
+    return array_filter($temporary);
   }
   else {
 //Failed

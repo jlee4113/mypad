@@ -6,6 +6,7 @@ header('Access-Control-Allow-Origin: *');
 $return = new json();
 $record  = array();
 $records = array();
+$where   = array();
 
 //these are the input parameters needed
 $idListing = get_variable('idHome', $_GET);
@@ -36,13 +37,6 @@ if (empty($return->data)) {
 else {
   $return->returnCode = '0';
   $return->messages = add_to_array("message","Pictures Selected",$return->messages);  
-//display images
-while($row=mysql_fetch_array($return)) {
- $image_name=$row["link"];
- $image_path=$row["folder"];
- $return->data = add_to_array("picture","img src=".$image_path."/".$image_name." border="0"",$return->data);
- echo "img src=".$image_path."/".$image_name." width=100 height=100";
-}  
 }
 echo json_encode($return);
 ?>

@@ -6,6 +6,7 @@ header('Access-Control-Allow-Origin: *');
 $return = new json();
 $record  = array();
 $records = array();
+$where   = array();
 
 //these are the input parameters needed
 $idOffer   = get_variable('idOffer', $_GET);
